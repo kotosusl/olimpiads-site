@@ -59,8 +59,8 @@
   </el-form-item>
       <el-form-item>
         <br>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button>Cancel</el-button>
+        <el-button type="primary" @click="onUpdate">Create</el-button>
+        <el-button @click="onCancel">Cancel</el-button>
       </el-form-item>
     </el-form>
   </template>
@@ -68,6 +68,7 @@
   <script lang="ts" setup>
   import { reactive } from 'vue'
   import { ref } from 'vue'
+  const emit = defineEmits(['onsubmit', 'oncancel'])
   
   // do not use same name with ref
   const form = reactive({
@@ -83,9 +84,6 @@
     surname: '',
   })
   
-  const onSubmit = () => {
-    console.log('submit!')
-  }
   const value4 = ref([])
   const options = [
   {
@@ -109,5 +107,14 @@
     label: 'Spanish',
   },
 ]
+function onCancel()
+{
+   emit('oncancel')
+}
+function onUpdate()
+{
+   console.log('submit!')
+   emit('onsubmit', form)
+}
   </script>
   
