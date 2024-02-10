@@ -1,5 +1,6 @@
 <template>
     <h1>Profile</h1>
+    
     <el-button type="primary" @click="myClickHandler">Edit</el-button>
     <el-dialog v-model="dialogVisible" title="Edit profile" width="60%" modal>
        <EditProfileForm @onupdate="onFormUpdate" @oncancel="onFormCancel" />

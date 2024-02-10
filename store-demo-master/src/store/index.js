@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-const UserList = defineStore('UserList', {
+const UserList0 = defineStore('UserList', {
    state: () => ({
       users: [
          {
@@ -52,4 +52,25 @@ const OlimpList = defineStore('OlimpList', {
    }
 
 })
+
+const UserList = defineStore('UserList', {
+   state: () => ({
+      users: [
+         {
+            user_id: 1,
+            name: 'username',
+            surname: 'usersurname',
+            school_class: 10,
+            subjects: ['m', 'p'],
+            messages_places: ['Telegram', 'Mail']
+         }
+      ]
+   }),
+   getters: {
+      Users: (state) => state.users,
+   }
+})
+
+
+export { UserList }
 export { OlimpList }
