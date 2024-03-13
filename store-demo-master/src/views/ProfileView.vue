@@ -1,6 +1,6 @@
 <template>
     <h1>Profile</h1>
-    
+
     <el-button type="primary" @click="myClickHandler">Edit</el-button>
     <el-dialog v-model="dialogVisible" title="Edit profile" width="60%" modal>
        <EditProfileForm @onupdate="onFormUpdate" @oncancel="onFormCancel" />
@@ -11,8 +11,9 @@
  import { ref } from 'vue'
  import EditProfileForm from '@/forms/EditProfileFrom.vue'
  
- const dialogVisible = ref(false)
  
+ const dialogVisible = ref(false)
+
  function myClickHandler()
  {
     dialogVisible.value = true

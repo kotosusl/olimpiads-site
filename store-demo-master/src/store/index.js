@@ -72,5 +72,4 @@ const UserList = defineStore('UserList', {
 })
 
 
-export { UserList }
 export { OlimpList }
