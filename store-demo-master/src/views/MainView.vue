@@ -1,16 +1,18 @@
 <template>
    <h1>Main</h1>
    <h3>Finding</h3>
-   <el-input v-model="input" placeholder="Please input" clearable class="inputs words"/>
+   <el-input v-model="input_serch" placeholder="Please input" clearable class="inputs words"/>
    <el-cascader :options="options" :show-all-levels="false" class="inputs" />
-   <el-button type="primary" :icon="Search">Search</el-button>
-   <h3>Olimps recomendations</h3>
+   <el-button type="primary" :icon="Search" @click="onUpdate">Search</el-button>
+   <h3>Olimps recomendations or finding</h3>
       <div v-for="(olimpiada, index) in olimps" :key="index" class="olimp-card">
          <el-card class="box-card" shadow="hover">
             <template #header>
                <div class="card-header">
                   <span>{{ olimpiada.name }}</span>
-                  <el-button class="button" text>Open olimp</el-button>
+                  <el-button class="button" text><router-link to="/one_olimp">Open olimp</router-link></el-button>
+                  <el-button class="button" text>Add olimp notification</el-button>
+
                </div>
             </template>
             <p>{{ Math.min(...olimpiada.olimp_classes) }}-{{ Math.max(...olimpiada.olimp_classes) }} class</p>
@@ -48,9 +50,8 @@
 <script setup>
 import { OlimpList } from '@/store/index.js'
 import { ref } from 'vue'
-const input = ref('')
+const input_serch = ref('')
 const olimps = OlimpList().Olimps
-
 const options = [
     {
       value: 'shcool_class',
@@ -70,4 +71,5 @@ const options = [
           ],
         },
       ]
+
 </script>

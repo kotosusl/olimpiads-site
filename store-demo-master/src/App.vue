@@ -1,15 +1,20 @@
 <template>
-   <h1>APP</h1>
-   <div class="main-nav">
-      <ul>
-         <li><router-link to="/">Main page</router-link></li>
-         <li><router-link to="/list">List page</router-link></li>
-         <li><router-link to="/about">About page</router-link></li>
-         <li><router-link to="/login">Login page</router-link></li>
-         <li><router-link to="/register">Register page</router-link></li>
-         <li><router-link to="/profile">Profile page</router-link></li>
-      </ul>
-   </div>
+   <nav class="main-nav">
+         <router-link to="/"><button>Main page</button></router-link>
+         <router-link to="/list"><button>List page</button></router-link>
+         <router-link to="/about"><button>About page</button></router-link>
+         <router-link to="/login"><button>Login page</button></router-link>
+         <router-link to="/register"><button>Register page</button></router-link>
+         <router-link to="/profile"><button>Profile page</button></router-link>
+   </nav>
    <br />
    <router-view></router-view>
 </template>
+
+<style>
+.main-nav{
+   display: flex;
+   justify-content: space-around;
+
+}
+</style>

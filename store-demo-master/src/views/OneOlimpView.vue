@@ -20,5 +20,5 @@
 <script setup>
 import { OlimpList } from '@/store/index.js'
 
-const one_olimp = OlimpList.olimps[0]
+const one_olimp = OlimpList().olimps[0]
 </script>
