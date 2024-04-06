@@ -6,11 +6,8 @@
       <el-form-item label="Surname">
         <el-input v-model="form.surname" />
       </el-form-item>
-      <el-form-item label="Otchestvo">
-        <el-input v-model="form.otchestvo" />
-      </el-form-item>
       <el-form-item label="shcool_class">
-        <el-select v-model="form.shcool_class" placeholder="">
+        <el-select v-model="form.school_class" placeholder="">
           <el-option label="1" value="1" />
           <el-option label="2" value="2" />
           <el-option label="3" value="3" />
@@ -25,22 +22,22 @@
         </el-select>
         </el-form-item>
         <el-form-item label="male/female">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="M" />
-          <el-radio label="F" />
+        <el-radio-group v-model="form.male">
+          <el-radio value="M" label="M" />
+          <el-radio value="F" label="F" />
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Message places">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Mail" name="message_places" />
-          <el-checkbox label="VK" name="message_places" />
-          <el-checkbox label="Telegram" name="message_places" />
+        <el-checkbox-group v-model="form.messages_places">
+          <el-checkbox value="Mail" label="Mail" name="message_places" />
+          <el-checkbox value="VK" label="VK" name="message_places" />
+          <el-checkbox value="Telegram" label="Telegram" name="message_places" />
         </el-checkbox-group>
       </el-form-item>
       
       <el-form-item>
     <el-select
-      v-model="value4"
+    v-model="form.subjects"
       multiple
       collapse-tags
       collapse-tags-tooltip
@@ -59,7 +56,7 @@
   </el-form-item>
       <el-form-item>
         <br>
-        <el-button type="primary" @click="onUpdate">Create</el-button>
+        <el-button type="primary" @click="onUpdate">Save</el-button>
         <el-button @click="onCancel">Cancel</el-button>
       </el-form-item>
     </el-form>
@@ -67,24 +64,12 @@
   
   <script lang="ts" setup>
   import { reactive } from 'vue'
-  import { ref } from 'vue'
+  import { UserList } from '@/store/UsersData.js'
   const emit = defineEmits(['onsubmit', 'oncancel'])
   
   // do not use same name with ref
-  const form = reactive({
-    name: '',
-    shcool_class: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
-    otchestvo: '',
-    surname: '',
-  })
+  const form = reactive(UserList().users[0])
   
-  const value4 = ref([])
   const options = [
   {
     value: 'Math',
@@ -115,6 +100,7 @@ function onUpdate()
 {
    console.log('submit!')
    emit('onsubmit', form)
+   emit('oncancel')
 }
   </script>
   
