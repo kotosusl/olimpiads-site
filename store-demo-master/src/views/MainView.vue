@@ -3,7 +3,7 @@
    <h3>Finding</h3>
    <el-input v-model="input_serch" placeholder="Please input" clearable class="inputs words"/>
    <el-cascader :options="options" :show-all-levels="false" class="inputs" />
-   <el-button type="primary" :icon="Search" @click="onUpdate">Search</el-button>
+   <el-button type="primary" :icon="Search" @click="onSearch">Search</el-button>
    <h3>Olimps recomendations or finding</h3>
       <div v-for="(olimpiada, index) in olimps" :key="index" class="olimp-card">
          <el-card class="box-card" shadow="hover">
@@ -50,6 +50,7 @@
 <script setup>
 import { OlimpList } from '@/store/index.js'
 import { ref } from 'vue'
+const emit = defineEmits(['onsearch'])
 const input_serch = ref('')
 const olimps = OlimpList().Olimps
 const options = [
@@ -72,4 +73,11 @@ const options = [
         },
       ]
 
+function onSearch(){
+   // input_search 
+   let request = JSON.stringify({"search": input_serch,
+                                 "option": options})
+   emit('onsearch')
+
+}
 </script>

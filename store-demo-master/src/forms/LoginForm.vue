@@ -62,6 +62,7 @@
     formEl.validate((valid) => {
       if (valid) {
         console.log('submit!')
+        let reqest = JSON.stringify(ruleForm)
       } else {
         console.log('error submit!')
         return false

@@ -11,7 +11,7 @@ class User(SqlAlchemyBase):  # таблица с пользователями
     telegram_name = sqlalchemy.Column(sqlalchemy.Text)  # id в телеграме
     name = sqlalchemy.Column(sqlalchemy.Text)
     surname = sqlalchemy.Column(sqlalchemy.Text)
-    age = sqlalchemy.Column(sqlalchemy.Integer)
+    school_class = sqlalchemy.Column(sqlalchemy.Integer)
     email = sqlalchemy.Column(sqlalchemy.Text, unique=True, nullable=False)
     password = sqlalchemy.Column(sqlalchemy.Text, nullable=False)
 

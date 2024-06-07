@@ -1,4 +1,5 @@
 <template>
+   <h3>me</h3>
    <nav class="main-nav">
          <router-link to="/"><button>Main page</button></router-link>
          <router-link to="/list"><button>List page</button></router-link>

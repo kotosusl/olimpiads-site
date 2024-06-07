@@ -17,6 +17,8 @@
     <el-dialog v-model="dialogVisible" title="Edit profile" width="60%" modal>
        <EditProfileForm @onupdate="onFormUpdate" @oncancel="onFormCancel" />
     </el-dialog>
+    <br>
+    <el-button type="primary"><router-link to="/user/select_olimps">Select olimps</router-link></el-button>
  </template>
  
  <script setup>
