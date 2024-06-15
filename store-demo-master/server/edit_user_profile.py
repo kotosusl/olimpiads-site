@@ -1,9 +1,11 @@
 from flask import Blueprint
 from data import db_session
-from data import users
+from data import users, user_subject, subjects
 from validations import valid_telegram_name
 from flask import jsonify, request
 from token_required import token_required
+from sqlalchemy import delete, insert
+from uuid import uuid4
 
 blueprint_edit_user_profile = Blueprint('blueprint_edit_user_profile', __name__)
 
@@ -25,6 +27,13 @@ def editing_user_profile(current_user):
             user.telegram_name = json_obj['telegram_name']
         else:
             return jsonify({"success": valid_telegram_name(json_obj['telegram_name'])})
-
+    if json_obj['subjects']:
+        query = delete(user_subject.User_Subject).where(user_subject.User_Subject.user_id == current_user.id)
+        session.execute(query)
+        session.commit()
+        for i in json_obj['subjects']:
+            query = insert(user_subject.User_Subject).values(id=str(uuid4()), user_id=current_user.id, subject_id=session.query(subjects.Subject.id).filter(subjects.Subject.name == i.lower()).first()[0])
+            session.execute(query)
+            session.commit()
     session.commit()
     return jsonify({"success": "OK"})

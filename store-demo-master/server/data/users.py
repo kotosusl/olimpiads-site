@@ -17,3 +17,5 @@ class User(SqlAlchemyBase):  # таблица с пользователями
 
     # использование в других таблицах
     olimp = orm.relationship('Relation')
+    subject = orm.relationship('User_Subject')
+    notification = orm.relationship('Notification')

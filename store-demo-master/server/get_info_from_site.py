@@ -1,19 +1,56 @@
 from bs4 import BeautifulSoup
 import requests
+import urllib.request
+
+
+class AppURLopener(urllib.request.FancyURLopener):
+    version = "Mozilla/5.0"
+
+
+"""url = f'https://olimpiada.ru/activities'
+
+    opener = AppURLopener()
+    res = opener.open(url).read()
+    print(res)
+    print(res.decode())
+    #res = requests.get(url, params=params)
+    soup = BeautifulSoup(res.decode(), 'html.parser')"""
+
+"""
+url = f'https://olimpiada.ru/activities/?class={params["class"]}&type={params["type"]}&period={params["period"]}&period_date={params["period_date"]}&cnow={params["cnow"]}'
+    apikey = '4a531335a4bca77332fd711f8358e3815fb3ad97'
+    params_api = {}
+    params_api['url'] = url
+    params_api['apikey'] = apikey
+    res = requests.get('https://api.zenrows.com/v1/', params=params_api)
+    
+    soup = BeautifulSoup(res.text, 'html.parser')
+"""
+
+
+"""
+url = f'https://olimpiada.ru/activities/'
+res = requests.get(url, params=params)
+soup = BeautifulSoup(res.text, 'html.parser')
+"""
 
 
 def list_of_olimpiads(olimp, params):
     url = f'https://olimpiada.ru/activities'
-    res = requests.get(url, params=params)
-    soup = BeautifulSoup(res.text, 'html.parser')
+
+    opener = AppURLopener()
+    res = opener.open(url).read()
+    print(res)
+    print(res.decode())
+    # res = requests.get(url, params=params)
+    soup = BeautifulSoup(res.decode(), 'html.parser')
     res = soup.find_all('div', class_='all')[2].find_all('div', class_='content')[0].find_all('div', id='megalist')[0]
     lst = []
     while res:
-        url = f'https://olimpiada.ru/activities'
+        url = f'https://olimpiada.ru/activities/'
         res = requests.get(url, params=params)
         soup = BeautifulSoup(res.text, 'html.parser')
-        res = soup.find_all('div', class_='all')[2].find_all('div', class_='content')[0].find_all('div', id='megalist')[
-            0]
+        res = soup.find_all('div', class_='all')[2].find_all('div', class_='content')[0].find_all('div', id='megalist')[0]
         res = res.find_all('div', class_='fav_olimp olimpiada')
 
         for i in res:

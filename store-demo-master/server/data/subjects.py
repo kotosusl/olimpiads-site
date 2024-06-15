@@ -11,3 +11,4 @@ class Subject(SqlAlchemyBase):  # таблица с предметами
 
     # использование в других таблицах
     olimp = orm.relationship('Olimp_Subject')
+    user = orm.relationship('User_Subject')
