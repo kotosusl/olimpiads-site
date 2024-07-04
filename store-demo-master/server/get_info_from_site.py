@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import urllib.request
+import time
 
 
 class AppURLopener(urllib.request.FancyURLopener):
@@ -37,17 +38,13 @@ soup = BeautifulSoup(res.text, 'html.parser')
 
 def list_of_olimpiads(olimp, params):
     url = f'https://olimpiada.ru/activities'
-
-    opener = AppURLopener()
-    res = opener.open(url).read()
-    print(res)
-    print(res.decode())
-    # res = requests.get(url, params=params)
-    soup = BeautifulSoup(res.decode(), 'html.parser')
+    res = requests.get(url, params=params)
+    soup = BeautifulSoup(res.text, 'html.parser')
     res = soup.find_all('div', class_='all')[2].find_all('div', class_='content')[0].find_all('div', id='megalist')[0]
     lst = []
     while res:
         url = f'https://olimpiada.ru/activities/'
+        time.sleep(0.1)
         res = requests.get(url, params=params)
         soup = BeautifulSoup(res.text, 'html.parser')
         res = soup.find_all('div', class_='all')[2].find_all('div', class_='content')[0].find_all('div', id='megalist')[0]

@@ -29,3 +29,4 @@ coverage
 
 *.tsbuildinfo
 /server/secret_keys.py
+/server/secret_keys_telegram.py

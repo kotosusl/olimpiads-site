@@ -45,7 +45,7 @@ if __name__ == "__main__":
     db_session.global_init("../db/main_database.db")
     #load_subjects()
     #new_olimpycs()
-    schedule.every().monday.at('12:00').do(checker_dates_olimps)
+    #schedule.every().monday.at('12:00').do(checker_dates_olimps)
 
     app.run(host='127.0.0.1', port=8888)
 
