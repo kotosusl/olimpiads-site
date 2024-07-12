@@ -30,3 +30,9 @@ coverage
 *.tsbuildinfo
 /server/secret_keys.py
 /server/secret_keys_telegram.py
+/src/forms/testFile.txt
+/server/test_sandbox.py
+/server/my_bot.session
+/db/main_database4.db
+/db/main_database3.db
+/server/bot.session
