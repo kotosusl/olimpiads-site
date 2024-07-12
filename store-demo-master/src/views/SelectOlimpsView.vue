@@ -1,17 +1,15 @@
 <template>
-   <h1>Main</h1>
+<h1>Select olimps</h1>
    <h3>Finding</h3>
    <el-input v-model="input_serch" placeholder="Please input" clearable class="inputs words"/>
-   <el-cascader :options="options" :show-all-levels="false" class="inputs" />
    <el-button type="primary" :icon="Search" @click="onSearch">Search</el-button>
-   <h3>Olimps recomendations or finding</h3>
       <div v-for="(olimpiada, index) in olimps" :key="index" class="olimp-card">
          <el-card class="box-card" shadow="hover">
             <template #header>
                <div class="card-header">
                   <span>{{ olimpiada.name }}</span>
                   <el-button class="button" text><router-link to="/one_olimp">Open olimp</router-link></el-button>
-                  <el-button class="button" text>Add olimp notification</el-button>
+                  <el-button class="button" text @click="deleteNotification">Delete olimp notification</el-button>
 
                </div>
             </template>
@@ -50,34 +48,21 @@
 <script setup>
 import { OlimpList } from '@/store/index.js'
 import { ref } from 'vue'
-const emit = defineEmits(['onsearch'])
+const emit = defineEmits(['onsearch', 'ondeletenotification'])
 const input_serch = ref('')
+// import user olimps
 const olimps = OlimpList().Olimps
-const options = [
-    {
-      value: 'shcool_class',
-      label: 'Class',
-      children: [
-        {value: '1', label: '1'}, {value: '2', label: '2'}, {value: '3', label: '3'}, {value: '4', label: '4'}, {value: '5', label: '5'},
-        {value: '6', label: '6'}, {value: '7', label: '7'}, {value: '8', label: '8'}, {value: '9', label: '9'}, {value: '10', label: '10'},
-        {value: '11', label: '11'}]},
-    {
-        value: 'subjects',
-        label: 'Subjects',
-        children: [
-            {value: 'technical', label: 'Technical', children: [{value: 'math', label: 'Math'}, {value: 'physics', label: 'Physics'}]}, 
-            {value: 'lingvist', label: 'Lingvist', children: [{value: 'english', label: 'English'}, {value: 'spanish', label: 'Spanish'}]},
-            {value: 'humanitar', label: 'Humanitar', children: [{value: 'literature', label: 'Literature'}, {value: 'history', label: 'History'}]}, 
-            {value: 'bio', label: 'Bio', children: [{value: 'biology', label: 'Biology'}, {value: 'geography', label: 'Geography'}]}
-          ],
-        },
-      ]
+
 
 function onSearch(){
    // input_search 
-   let request = JSON.stringify({"search": input_serch,
-                                 "option": options})
    emit('onsearch')
 
+}
+
+function deleteNotification()
+{
+   emit('ondeletenotification')
+   // delete olimp_name in user_olimps
 }
 </script>
