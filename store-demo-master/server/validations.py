@@ -27,6 +27,4 @@ def valid_telegram_name(telegram_name):
         return 'invalid telegram name'
     if len(telegram_name) > 50:
         return 'too long telegram name'
-    if telegram_name[0] != '@':
-        return 'the first element is not @'
     return 'OK'

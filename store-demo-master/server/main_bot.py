@@ -47,6 +47,7 @@ async def periodic(sleep_for):
 
 
 async def f():
+    await bot.send_message(1283945415, 'I know ALL about YOU.')
     await bot.send_message(1393667810, 'hi')
 
 

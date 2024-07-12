@@ -1,9 +1,9 @@
 <template>
     <h1>Login</h1>
-    <LoginForm/>
+    <NewLoginForm/>
 </template>
 
 
 <script setup>
-import LoginForm from '@/forms/LoginForm.vue';
+import NewLoginForm from '@/forms/LoginForm.vue';
 </script>

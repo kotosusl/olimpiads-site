@@ -7,11 +7,11 @@
       label-width="120px"
       class="demo-ruleForm"
     >
-    <el-form-item label="Login" prop="login">
-        <el-input v-model.number="ruleForm.login" />
+    <el-form-item label="Почта" prop="email">
+        <el-input v-model.number="ruleForm.email" />
       </el-form-item>
-      <el-form-item label="Password" prop="pass">
-        <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+      <el-form-item label="Пароль" prop="password">
+        <el-input v-model="ruleForm.password" type="password" autocomplete="off" />
       </el-form-item>
       
       <el-form-item>
@@ -48,13 +48,13 @@
   }
   
   const ruleForm = reactive({
-    pass: '',
-    login: '',
+    password: '',
+    email: '',
   })
   
   const rules = reactive<FormRules<typeof ruleForm>>({
-    pass: [{ validator: validatePass, trigger: 'blur' }],
-    login: [{ validator: checkLogin, trigger: 'blur' }],
+    password: [{ validator: validatePass, trigger: 'blur' }],
+    email: [{ validator: checkLogin, trigger: 'blur' }],
   })
   
   const submitForm = (formEl: FormInstance | undefined) => {
@@ -63,6 +63,24 @@
       if (valid) {
         console.log('submit!')
         let reqest = JSON.stringify(ruleForm)
+        var axios = require("axios").default;
+
+        var options = {
+          method: 'POST',
+          url: 'http://localhost:8888/api/login',
+          headers: {
+            Accept: '*/*',
+            'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+            'Content-Type': 'application/json'
+          },
+          data: {email: ruleForm['email'], password: ruleForm['password']}
+        };
+
+        axios.request(options).then(function (response) {
+          console.log(response.data);
+        }).catch(function (error) {
+          console.error(error);
+        });
       } else {
         console.log('error submit!')
         return false

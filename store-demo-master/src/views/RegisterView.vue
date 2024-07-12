@@ -1,9 +1,9 @@
 <template>
     <h1>Register</h1>
-    <RegisterFrom/>
+    <NewRegisterFrom/>
 </template>
 
 
 <script setup>
-import RegisterFrom from '@/forms/RegisterForm.vue';
+import NewRegisterFrom from '@/forms/RegisterForm.vue';
 </script>
