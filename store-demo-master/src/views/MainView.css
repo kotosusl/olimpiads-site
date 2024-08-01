@@ -1,0 +1,83 @@
+.main-el-menu{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Monsterrat', sans-serif;
+    
+}
+
+.main-body-div{
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    min-height: 100vh;
+    padding-top: 50px;
+}
+
+.main-body-div h1 {
+    font-size: 2em;
+    padding-top: 50px;
+    padding-left: 5%;
+    padding-bottom: 15px;
+}
+
+.main-search-div{
+    padding-left: 4%;
+}
+
+.inputs-words{
+    padding: 5px;
+}
+
+.main-search-button{
+    margin: 5px;
+}
+
+.subject-box{
+    display: flex;
+    justify-content: flex-start;
+ }
+
+ .main-text-item{
+    margin-right: 5px;
+ }
+
+ .olimp-card{
+    margin: 1%;
+ }
+
+ .inputs{
+    margin: 5px;
+ }
+
+ .words{
+    width: 300px;
+ }
+ 
+.box-card{
+    border-top: 3px #626aef solid;
+    border-bottom: 3px #626aef solid;
+    border-radius: 15px;
+}
+
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.card-header h1{
+    font-size: 1.2em;
+    padding: 0;
+}
+
+.main-subject-box{
+    font-size: 1em;
+    padding-top: 20px;
+}
