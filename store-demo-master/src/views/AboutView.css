@@ -76,7 +76,7 @@
   background-color: #fff;
   background: linear-gradient(to right, #fff, #e1e1e1);
   width: 60%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   border-radius: 30px;
 }
 
@@ -136,7 +136,7 @@
   
 }
 
-h1{
+.about-body-div h1{
   font-family: 'Courier New', Courier, monospace;
 }
 

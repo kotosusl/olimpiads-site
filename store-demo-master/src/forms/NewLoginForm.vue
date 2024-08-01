@@ -1,6 +1,7 @@
 <template>
     <div v-if="calculatePageSize() > 800">
     <div class="body-div">
+      <router-link to="/about"><div class="login-back-button-div"><img src="/src/views/imges/arrow_left.png" alt="" class="login-back-button"></div></router-link>
         <div class="container" id="container">
         <div class="form-container sign-in">
             <el-form
@@ -38,6 +39,7 @@
 
 <div v-else>
     <div class="mobile-body-div">
+      <router-link to="/about"><div class="mobile-login-back-button-div"><img src="/src/views/imges/arrow_left.png" alt="" class="mobile-login-back-button"></div></router-link>
             <div class="mobile-container">
             <div class="mobile-form-container mobile-sign-in">
                 <el-form

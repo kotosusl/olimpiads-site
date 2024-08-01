@@ -4,21 +4,50 @@ const OlimpList = defineStore('OlimpList', {
    state: () => ({
       olimps: [
          {
-            olimp_id: 1,
-            name: 'olimp1',
-            description: 'desc1',
-            olimp_classes: [1, 2, 3],
-            subjects: ['m', 'p'],
-            href_to_olimp: 'https1',
-         },
-         {
-            olimp_id: 2,
-            name: 'olimp2',
-            description: 'desc2',
-            olimp_classes: [2, 3, 4],
-            subjects: ['e', 's'],
-            href_to_olimp: 'https2',
-         }
+            'id': 1,
+            'name': 'Бельчонок gafdhsf dafsgmdh sFDgzfxc',
+            'href': '/1234',
+            'desc': 'самая лучшая олимпиада, омг',
+            'min_class': 1,
+            'max_class': 11,
+            'subjects': ['информатика', 'math', 'weqfqr', 'rbqerbq', 'wrqrrthn', 'wyynbgrvf']
+        },
+        {
+         'id': 2,
+         'name': 'Бельчонок',
+         'href': '/1234',
+         'desc': 'самая лучшая олимпиада, омг',
+         'min_class': 1,
+         'max_class': 11,
+         'subjects': ['информатика', 'math', 'weqfqr', 'rbqerbq']
+     },
+     {
+      'id': 3,
+      'name': 'Бельчонок',
+      'href': '/1234',
+      'desc': 'самая лучшая олимпиада, омг',
+      'min_class': 1,
+      'max_class': 11,
+      'subjects': ['информатика', 'math', 'weqfqr', 'rbqerbq']
+  },
+  {
+   'id': 4,
+   'name': 'Бельчонок',
+   'href': '/1234',
+   'desc': 'самая лучшая олимпиада, омг',
+   'min_class': 1,
+   'max_class': 11,
+   'subjects': ['информатика', 'math', 'weqfqr', 'rbqerbq']
+},
+{
+   'id': 5,
+   'name': 'Бельчонок',
+   'href': '/1234',
+   'desc': 'самая лучшая олимпиада, омг',
+   'min_class': 1,
+   'max_class': 11,
+   'subjects': ['информатика', 'math', 'weqfqr', 'rbqerbq', 'wrqrrthn', 'wyynbgrvf']
+},
       ]
    }),
    getters: {
