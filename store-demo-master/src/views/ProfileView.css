@@ -1,0 +1,201 @@
+.main-el-menu{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Monsterrat', sans-serif;
+    
+}
+
+.profile-body-div{
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    height: 100vh;
+    padding-top: 70px;
+}
+
+.profile-information{
+    margin: 0 15% 0 15%;
+    border-radius: 15px;
+    border-top: 3px #626aef solid;
+    border-bottom: 3px #626aef solid;
+    width: 70%;
+    padding-bottom: 50px;
+}
+
+.profile-page-name{
+    padding-top: 40px;
+    padding-left: 30px;
+    padding-bottom: 40px;
+    font-size: 1.5em;
+}
+
+.profile-avatar{
+    margin-left: 30px;
+}
+
+.profile-avatar-and-user-info{
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-user-info{
+    padding: 0 5% 30px 7%;
+    line-height: 2.75em;
+}
+
+.profile-body-div h1{
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0;
+    margin: 0;
+    
+}
+
+.profile-user-info h1{
+    font-size: 2.5em;
+}
+
+.profile-buttons{
+    display: flex;
+    justify-content: space-around;
+    max-width: 500px;
+    margin-left: 15%;
+}
+
+.profile-buttons button{
+    height: 50px;
+    font-size: 1em;
+}
+
+.profile-edit-profile{
+    padding: 30px;
+    border-radius: 15px;
+    border: 3px #626aef solid;
+}
+
+.profile-user-subjects{
+    display: inline-flex;
+    line-height: 20px;
+}
+
+.profile-user-subjects h3{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.profile-subjects{
+    margin-right: 10px;
+}
+
+.profile-special-div{
+    line-height: 30px;
+    margin-bottom: 25px;
+}
+
+/*------------------Mobile-version--------------------*/
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Monsterrat', sans-serif;
+    
+}
+
+.mobile-profile-body-div{
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    min-height: 100vh;
+    padding-top: 50px;
+}
+
+.mobile-profile-information{
+    margin: 0 5% 0 5%;
+    width: 90%;
+    padding-bottom: 50px;
+}
+
+.mobile-profile-page-name{
+    padding-top: 40px;
+    padding-left: 10px;
+    padding-bottom: 40px;
+    font-size: 1.3em;
+}
+
+.mobile-profile-avatar{
+    margin-left: 10px;
+}
+
+.mobile-profile-avatar-and-user-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-profile-user-info{
+    padding: 0 5% 30px 5%;
+    line-height: 3em;
+}
+
+.mobile-profile-body-div h1{
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0;
+    margin: 0;
+    
+}
+
+h2{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.mobile-profile-user-info h1{
+    font-size: 2em;
+}
+
+.mobile-profile-buttons{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.mobile-profile-buttons button{
+    height: 40px;
+    font-size: 0.85em;
+    width: 100%;
+    margin: 7px 0 7px 0;
+
+}
+
+.mobile-profile-edit-profile{
+    padding: 5px;
+    
+}
+
+.mobile-profile-user-subjects{
+    display: inline-flex;
+    line-height: 20px;
+}
+
+h3{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.mobile-profile-subjects{
+    margin-right: 10px;
+}
+
+.profile-special-div{
+    line-height: 30px;
+}
+
+.profile-message-places{
+    margin-top: 25px;
+}
+

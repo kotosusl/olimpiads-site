@@ -1,48 +1,58 @@
 <template>
-<h1>Select olimps</h1>
-   <h3>Finding</h3>
-   <el-input v-model="input_serch" placeholder="Please input" clearable class="inputs words"/>
-   <el-button type="primary" :icon="Search" @click="onSearch">Search</el-button>
-      <div v-for="(olimpiada, index) in olimps" :key="index" class="olimp-card">
-         <el-card class="box-card" shadow="hover">
+   <div class="select-body-div">
+      <el-menu
+        :default-active="activeIndex"
+        class="main-el-menu"
+        mode="horizontal"
+        active-text-color="#626aef"
+        :router="true"
+    >
+        <el-menu-item index="/" :route="{ name: 'main' }">Главная</el-menu-item>
+        <el-menu-item index="/profile" :route="{ name: 'profile' }">Профиль</el-menu-item>
+        <el-menu-item index="/user/notifications" :route="{ name: 'notifications' }">Уведомления</el-menu-item>
+        <el-menu-item index="/user/select_olimps" :route="{ name: 'select_olimps' }">Мои олимпиады</el-menu-item></el-menu>
+      <h1>Мои олимпиады</h1>
+      <div class="select-search-div">
+      <el-row>
+         <el-col :xs="23" :sm="14" :md="11" :lg="11" :xl="6">
+            <el-input v-model="input_serch" placeholder="Введите название олимпиады" clearable class="select-inputs-words" />
+         </el-col>
+         <el-button type="primary" color="#626aef" :icon="Search" @click="onSearch" class="select-search-button">Поиск</el-button>
+      </el-row></div>
+   
+   <div class="select-cards-box">
+      <el-row :gutter="10" justify="center">
+      <el-col v-for="(olimpiada, index) in olimps" :key="index" class="select-olimp-card" :xs="23" :sm="11" :md="11" :lg="7" :xl="5">
+         <el-card class="select-box-card" shadow="hover" @click="cardOnClick">
             <template #header>
-               <div class="card-header">
-                  <span>{{ olimpiada.name }}</span>
-                  <el-button class="button" text><router-link to="/one_olimp">Open olimp</router-link></el-button>
-                  <el-button class="button" text @click="deleteNotification">Delete olimp notification</el-button>
-
+               <div class="select-card-header">
+                  <el-row><h1>{{ olimpiada.name }}</h1></el-row>
                </div>
             </template>
-            <p>{{ Math.min(...olimpiada.olimp_classes) }}-{{ Math.max(...olimpiada.olimp_classes) }} class</p>
-            <div class="subject-box">
-            <div v-for="i in olimpiada.subjects" :key="i" class="text-item">{{ i }}</div>
+            <div class="select-card-body">
+               <p>{{olimpiada.min_class }}-{{ olimpiada.max_class }} класс</p>
+               <div class="select-subject-box">
+                  <el-row>
+                     <div class="select-text-item">По предметам:</div>
+                     <div v-for="(i, indx) in olimpiada.subjects" :key="indx" class="select-text-item">
+                        <div v-if="indx == olimpiada.subjects.length - 1">{{ i }}</div>
+                        <div v-else>{{ i }},</div></div>
+                  </el-row>
+               </div>
             </div>
-            <p>{{ olimpiada.description }}</p>
             
-            <template #footer>Footer content</template>
+            <template #footer>
+               <el-button class="button" type="danger" plain @click="addOlimpNotification">Убрать уведомления</el-button>
+            </template>
          </el-card>
+      
+      </el-col>
+   </el-row>
    </div>
-   
+</div>
 </template>
 
-<style>
-.subject-box{
-   display: flex;
-   justify-content: flex-start;
-}
-.text-item{
-   margin: 5px;
-}
-.olimp-card{
-   margin: 1%;
-}
-.inputs{
-   margin: 5px;
-}
-.words{
-   width: 700px;
-}
-</style>
+<style src="/src/views/SelectOlimpsView.css"></style>
 
 
 <script setup>
@@ -53,6 +63,7 @@ const input_serch = ref('')
 // import user olimps
 const olimps = OlimpList().Olimps
 
+const activeIndex = ref('/user/select_olimps')
 
 function onSearch(){
    // input_search 

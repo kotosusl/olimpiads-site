@@ -1,184 +1,141 @@
 <template>
+    <div v-if="calculatePageSize() > 800">
     <div class="body-div">
+      <router-link to="/about"><div class="login-back-button-div"><img src="/src/views/imges/arrow_left.png" alt="" class="login-back-button"></div></router-link>
         <div class="container" id="container">
         <div class="form-container sign-in">
-            <form>
-                <h1>Sign In</h1>
-                <span>or use your email password</span>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <a href="#">Forget Your Password?</a>
-                <el-button color="#626aef">Sign In</el-button>
-            </form>
+            <el-form
+                ref="ruleFormRef"
+                :model="ruleForm"
+                status-icon
+                :rules="rules"
+                class="demo-ruleForm"
+            >
+                <h1>Вход</h1>
+                <el-form-item prop="email">
+                    <el-input v-model.number="ruleForm.email" type="email" placeholder="Email" />
+                </el-form-item>
+                <el-form-item prop="password">
+                    <el-input type="password" placeholder="Пароль" v-model="ruleForm.password" autocomplete="off" />
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="submitForm(ruleFormRef)">Войти</el-button>
+                </el-form-item>
+                </el-form>
         </div>
         <div class="toggle-container2">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Hello, Friend!</h1>
-                    <p>Register with your personal details to use all of site features</p>
-                    <router-link to="/register"><el-button color="#626aef" class="hidden" id="register">Sign Up</el-button></router-link>
+            <div class="toggle2">
+                <div class="toggle-panel2 toggle-left">
+                    <h1>На сайте впервые?</h1>
+                    <router-link to="/register"><el-button color="#626aef" class="hidden" id="register">Зарегистрироваться</el-button></router-link>
                 </div>
             </div>
         </div>
     </div>
     </div>
+</div>
+
+<!-----------------Mobile-version---------------------->
+
+<div v-else>
+    <div class="mobile-body-div">
+      <router-link to="/about"><div class="mobile-login-back-button-div"><img src="/src/views/imges/arrow_left.png" alt="" class="mobile-login-back-button"></div></router-link>
+            <div class="mobile-container">
+            <div class="mobile-form-container mobile-sign-in">
+                <el-form
+                ref="ruleFormRef"
+                :model="ruleForm"
+                status-icon
+                :rules="rules"
+                class="demo-ruleForm">
+                    <h1>Вход</h1>
+                    <br>
+                    <el-form-item prop="email">
+                        <el-input v-model.number="ruleForm.email" type="email" placeholder="Email" />
+                    </el-form-item>
+                    <el-form-item prop="password">
+                    <el-input type="password" placeholder="Пароль" v-model="ruleForm.password" autocomplete="off" />
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button color="#626aef" @click="submitForm(ruleFormRef)">Войти</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <div class="mobile-to-register">
+            <span><b>Впервые на сайте?</b></span>
+                <router-link to="/register"><el-button color="#626aef">Зарегистрироваться</el-button></router-link>
+        </div>
+    </div>
+</div>
 </template>
 
+<style src="/src/forms/NewLoginForm.css"></style>
 
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
 
-<style>
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Monsterrat', sans-serif;
-    
-}
+const calculatePageSize = () => {
+    const width = ref(window.innerWidth);
+    return width.value;
+};
 
-.body-div{
-    background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100vh;
-}
+const ruleFormRef = ref<FormInstance>()
+  
+  const checkLogin = (rule: any, value: any, callback: any) => {
+    if (!value) {
+      return callback(new Error('Укажите email'))
+    } else {
+        callback()
+    }
+  }
+  
+  const validatePass = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+      callback(new Error('Введите пароль'))
+    } else {
+      callback()
+    }
+  }
+  
+  const ruleForm = reactive({
+    password: '',
+    email: '',
+  })
+  
+  const rules = reactive<FormRules<typeof ruleForm>>({
+    password: [{ validator: validatePass, trigger: 'blur' }],
+    email: [{ validator: checkLogin, trigger: 'blur' }],
+  })
+  
+  const submitForm = (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    formEl.validate((valid) => {
+      if (valid) {
+        console.log('submit!');
+        let request = JSON.stringify(ruleForm);
+        let url = '/api/login';
 
-.container{
-    background-color: #fff;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-    position: relative;
-    overflow: hidden;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-}
+        let options = {
+            method: 'POST',
+            headers: {
+            Accept: '*/*',
+            'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+            'Content-Type': 'application/json'
+            },
+            body: request
+        };
 
-.container p{
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.3px;
-    margin: 20px 0;
-}
+        fetch(url, options)
+            .then(res => res.json())
+            .then(json => console.log(json))
+            .catch(err => console.error('error:' + err));
 
-.container span{
-    font-size: 12px;
-}
-
-.container a{
-    color: #333;
-    font-size: 13px;
-    text-decoration: none;
-    margin: 15px 0 10px;
-}
-
-.container button{
-    background-color: #512da8;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-.container button.hidden{
-    background-color: transparent;
-    border-color: #fff;
-}
-
-.container form{
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 40px;
-    height: 100%;
-}
-
-.container input{
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-}
-
-.form-container{
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
-}
-
-.sign-in{
-    left: 0;
-    width: 50%;
-    z-index: 2;
-    transform: translateX(0);
-    opacity: 1;
-    animation: ani3 0.2s ease-in-out;
-}
-
-@keyframes ani3 {
-  0% {transform: translateX(-100%);}
-  100% {transform: translateX(0);}
-}
-
-.toggle-container2{
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    transition: all 0.6s ease-in-out;
-    border-radius: 150px 0 0 100px;
-    z-index: 1000;
-}
-
-.toggle{
-    background-color: #512da8;
-    height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #512da8);
-    color: #fff;
-    position: relative;
-    left: -100%;
-    height: 100%;
-    width: 200%;
-    transform: translateX(0);
-    transition: all 0.6s ease-in-out;
-}
-
-.toggle-panel{
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 30px;
-    text-align: center;
-    top: 0;
-    transform: translateX(0);
-    transition: all 0.6s ease-in-out;
-}
-
-.toggle-right{
-    right: 0;
-    transform: translateX(0);
-}
-
-</style>
-
+      } else {
+        console.log('error submit!')
+        return false
+      }
+    })
+  }
+</script>

@@ -26,6 +26,30 @@
       >
     </el-form-item>
   </el-form>
+
+
+
+  <el-form
+                ref="ruleFormRef"
+                :model="ruleForm"
+                status-icon
+                :rules="rules"
+                class="demo-ruleForm">
+                    <h1>Зарегистрироваться</h1>
+                    <span>и получать уведомления о проведении олимпиад</span>
+                    <el-form-item prop="email">
+                        <el-input  v-model="ruleForm.email" type="email" placeholder="Email" />
+                    </el-form-item>
+                    <el-form-input prop="password">
+                        <el-input type="password" placeholder="Пароль" v-model="ruleForm.password" />
+                    </el-form-input>
+                    <el-form-input prop="checkPass">
+                        <el-input type="text" placeholder="Поввтор пароля" v-model="ruleForm.checkPass"/>
+                    </el-form-input>
+                    <el-form-input>
+                        <el-button color="#626aef" @click="submitForm(ruleFormRef)">Зарегистрироваться</el-button>
+                    </el-form-input>
+                </el-form>
 </template>
 
 <script lang="ts" setup>

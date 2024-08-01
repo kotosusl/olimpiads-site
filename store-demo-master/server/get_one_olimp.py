@@ -2,7 +2,8 @@ from flask import Blueprint
 from data import db_session
 from flask import jsonify, request
 from token_required import token_required
-from data import olimpics
+from data import olimpics, subjects, olimp_subject
+from sqlalchemy import select
 
 blueprint_get_one_olimp = Blueprint('blueprint_get_one_olimp', __name__)
 
@@ -15,6 +16,9 @@ def get_one_olimp(current_user):
         json_obj = request.get_json() or {}
         if json_obj.get('olimp_id', 0):
             olimp = session.query(olimpics.Olimp).filter(olimpics.Olimp.id == json_obj['olimp_id']).first()
+            q = select(subjects.Subject.name).select_from(subjects.Subject).join(olimp_subject.Olimp_Subject,
+            olimp_subject.Olimp_Subject.subject == subjects.Subject.id).join(olimpics.Olimp, olimp_subject.Olimp_Subject.olimp == olimpics.Olimp.id).where(olimp.id == olimpics.Olimp.id)
+            olimp_subjects = session.execute(q)
             jsn = {
                 'success': 'OK',
                 'olimp': {
@@ -23,7 +27,8 @@ def get_one_olimp(current_user):
                     'href': olimp.href,
                     'desc': olimp.desc,
                     'min_class': olimp.min_class,
-                    'max_class': olimp.max_class
+                    'max_class': olimp.max_class,
+                    'subjects': [p[0] for p in olimp_subjects]
                 }
             }
         else:
