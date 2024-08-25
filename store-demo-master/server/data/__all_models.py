@@ -6,4 +6,5 @@ from . import olimp_subject
 from . import olimp_dates
 from . import notifications
 from . import user_subject
+from . import usernames_in_bot
 # все модели бд

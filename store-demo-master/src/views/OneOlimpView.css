@@ -16,12 +16,13 @@
 .one-olimp-body-div{
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    height: 100vh;
+    min-height: 100vh;
     padding-top: 50px;
 }
 
 .one-olimp-body-div h1{
     margin: 0;
+    padding: 10px;
 }
 
 .start-div{
@@ -81,6 +82,10 @@
  .one-olimp-description{
     font-size: 1.5em;
     font-family: 'Courier New', Courier, monospace;
+ }
+
+ .before_footer{
+    height: 30px;
  }
   
   footer{

@@ -18,8 +18,12 @@ def editing_user_profile(current_user):
     user = session.query(users.User).filter(users.User.id == current_user.id).first()
     if json_obj.get('name', 0):
         user.name = json_obj['name']
+    else:
+        user.name = None
     if json_obj.get('surname', 0):
         user.surname = json_obj['surname']
+    else:
+        user.surname = None
     if json_obj.get('school_class', 0):
         user.school_class = int(json_obj['school_class'])
     if json_obj.get('telegram_name', 0):
@@ -27,7 +31,9 @@ def editing_user_profile(current_user):
             user.telegram_name = json_obj['telegram_name']
         else:
             return jsonify({"success": valid_telegram_name(json_obj['telegram_name'])})
-    if json_obj['subjects']:
+    else:
+        user.telegram_name = None
+    if json_obj.get('subjects', 0):
         query = delete(user_subject.User_Subject).where(user_subject.User_Subject.user_id == current_user.id)
         session.execute(query)
         session.commit()
@@ -35,5 +41,25 @@ def editing_user_profile(current_user):
             query = insert(user_subject.User_Subject).values(id=str(uuid4()), user_id=current_user.id, subject_id=session.query(subjects.Subject.id).filter(subjects.Subject.name == i.lower()).first()[0])
             session.execute(query)
             session.commit()
+    else:
+        query = delete(user_subject.User_Subject).where(user_subject.User_Subject.user_id == current_user.id)
+        session.execute(query)
+        session.commit()
+    if json_obj.get('messages_places'):
+        if 'Mail' in json_obj['messages_places']:
+            user.get_gmail_notifications = True
+        else:
+            user.get_gmail_notifications = False
+        if 'Telegram' in json_obj['messages_places']:
+            user.get_telegram_notifications = True
+        else:
+            user.get_telegram_notifications = False
+    else:
+        user.get_telegram_notifications = False
+        user.get_gmail_notifications = False
+
+    if json_obj.get('male', 0):
+        user.male = json_obj['male']
+
     session.commit()
     return jsonify({"success": "OK"})

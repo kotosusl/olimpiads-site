@@ -15,10 +15,14 @@
     
 }
 
+.footer-div{
+    height: 20px;
+}
+
 .profile-body-div{
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    height: 100vh;
+    min-height: 100vh;
     padding-top: 70px;
 }
 
@@ -29,6 +33,10 @@
     border-bottom: 3px #626aef solid;
     width: 70%;
     padding-bottom: 50px;
+}
+
+.profile-body-div a{
+    margin-right: 15px;
 }
 
 .profile-page-name{
@@ -199,3 +207,6 @@ h3{
     margin-top: 25px;
 }
 
+.mobile-profile-body-div a{
+    margin-right: 15px;
+}

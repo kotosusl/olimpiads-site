@@ -22,7 +22,8 @@
    
    <div class="select-cards-box">
       <el-row :gutter="10" justify="center">
-      <el-col v-for="(olimpiada, index) in olimps" :key="index" class="select-olimp-card" :xs="23" :sm="11" :md="11" :lg="7" :xl="5">
+      <div v-if="olimps.length == 0" class="select-no-olimp"><p>Олимпиад не найдено</p></div>
+      <el-col v-else v-for="(olimpiada, index) in olimps" :key="index" class="select-olimp-card" :xs="23" :sm="11" :md="11" :lg="7" :xl="5">
          <el-card class="select-box-card" shadow="hover" @click="cardOnClick">
             <template #header>
                <div class="select-card-header">
@@ -42,7 +43,7 @@
             </div>
             
             <template #footer>
-               <el-button class="button" type="danger" plain @click="addOlimpNotification">Убрать уведомления</el-button>
+               <el-button class="button" type="danger" plain @click="deleteOlimpNotification(olimpiada.id)">Убрать уведомления</el-button>
             </template>
          </el-card>
       
@@ -57,23 +58,110 @@
 
 <script setup>
 import { OlimpList } from '@/store/index.js'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+import { userToken } from '@/store/tokenData';
+import router from '@/router';
+import { ElMessage } from 'element-plus'
+
+
+
 const emit = defineEmits(['onsearch', 'ondeletenotification'])
 const input_serch = ref('')
 // import user olimps
-const olimps = OlimpList().Olimps
+
+let url = '/api/get_user_olimps';
+
+let request_options = {
+   method: 'POST',
+   headers: {
+   Accept: '*/*',
+   'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+   'Content-Type': 'application/json',
+   'x-access-token': userToken.getters.get_token
+   },
+   body: userToken.getters.get_request
+};
+
+
+let olimps = reactive([]);
+
+fetch(url, request_options)
+            .then(res => res.json())
+            .then(json => {
+                if (json['success'] != 'OK') {
+                  router.push('/login')
+                  
+                } else if (json['success'] == 'OK'){
+                     for (let i = 0; i < json['olimps'].length; i++){
+                        olimps.push(json['olimps'][i]);
+                     }
+                     userToken.commit('set_request', "{}");
+                }
+            })
+            .catch(err => console.error('error:' + err));
+
 
 const activeIndex = ref('/user/select_olimps')
 
 function onSearch(){
-   // input_search 
+   let request = JSON.stringify({
+      "search_name": input_serch.value
+   })
+   userToken.commit('set_reload_page', '/user/select_olimps')
+   userToken.commit('set_request', request)
+   router.push('/reload')
    emit('onsearch')
 
 }
 
-function deleteNotification()
+const successMessage1 = (mess) => {
+  ElMessage({
+    showClose: true,
+    message: mess,
+    type: 'info',
+    duration: 8000
+  })
+}
+
+
+const successMessage2 = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Уведомления успешно убраны',
+    type: 'success',
+    duration: 8000
+  })
+}
+
+function deleteOlimpNotification(olimp_id)
 {
+
+   let url = '/api/remove_olimp_user';
+   let request= JSON.stringify({'olimp_id': olimp_id})
+   let request_options = {
+      method: 'POST',
+      headers: {
+         Accept: '*/*',
+      'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+         'Content-Type': 'application/json',
+         'x-access-token': userToken.getters.get_token
+      },
+      body: request
+   }
+
+   fetch(url, request_options)
+   .then(res => res.json())
+   .then(json => {
+      if (json['success'] != 'OK') {
+         router.push('/login');
+      
+      } else if (json['success'] == 'OK'){
+         if (json['info']) successMessage1(json['info']);
+         else successMessage2();
+      }
+   })
+   .catch(err => console.error('error:' + err));
+
    emit('ondeletenotification')
-   // delete olimp_name in user_olimps
 }
 </script>
