@@ -73,8 +73,12 @@
 <style src="/src/forms/NewLoginForm.css"></style>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, toRefs } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { userToken } from '@/store/tokenData';
+import { storeToRefs } from 'pinia';
+import router from '@/router';
 
 const calculatePageSize = () => {
     const width = ref(window.innerWidth);
@@ -108,12 +112,32 @@ const ruleFormRef = ref<FormInstance>()
     password: [{ validator: validatePass, trigger: 'blur' }],
     email: [{ validator: checkLogin, trigger: 'blur' }],
   })
-  
+
+  const response = reactive({'success': '', 'token' : ''});
+
+  const errorMessage = () => {
+  ElMessage({
+    showClose: true,
+    message: response['success'],
+    type: 'error',
+    duration: 12000
+  })
+}
+
+const successMessage = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Пользователь успешно зарегистрирован',
+    type: 'success',
+    duration: 12000
+  })
+}
+
+
   const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate((valid) => {
       if (valid) {
-        console.log('submit!');
         let request = JSON.stringify(ruleForm);
         let url = '/api/login';
 
@@ -129,8 +153,23 @@ const ruleFormRef = ref<FormInstance>()
 
         fetch(url, options)
             .then(res => res.json())
-            .then(json => console.log(json))
+            .then(json => {
+                response['success'] = json['success'];
+                if (response['success'] != 'OK' && response['success'] != '') {
+                  errorMessage();
+                } else if (response['success'] == 'OK'){
+                  
+                  response['token'] = json['token'];
+                  ruleForm.password = '';
+                  ruleForm.email = '';
+                  
+                  userToken.commit('set_token', json['token']);
+
+                  router.push('/');
+                }
+            })
             .catch(err => console.error('error:' + err));
+
 
       } else {
         console.log('error submit!')

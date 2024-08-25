@@ -26,9 +26,9 @@ def adding_user():
                 session.commit()
                 return jsonify({'success': 'OK'})
             else:
-                return jsonify({'success': 'email already exists'}), 202
+                return jsonify({'success': 'Email уже зарегистрирован'}), 202
         else:
-            return jsonify({'success': 'no email or password'})
+            return jsonify({'success': 'Неверный Email или пароль'})
     except Exception as err:
         print(err)
         return jsonify({'success': 'ERROR'}), 500

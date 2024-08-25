@@ -16,7 +16,7 @@ def add_olimp_to_user(current_user):
     json_obj = request.get_json() or {}
     if json_obj.get('olimp_id', 0):
         if session.query(user_olimpyc.Relation).filter(user_olimpyc.Relation.olimp == json_obj['olimp_id']).all():
-            return jsonify({'success': 'relation already exists'})
+            return jsonify({'success': 'OK', 'info': 'Уведомления уже добавлены'})
         else:
             query = insert(user_olimpyc.Relation).values(id=str(uuid4()), user=current_user.id, olimp=json_obj['olimp_id'])
             session.execute(query)

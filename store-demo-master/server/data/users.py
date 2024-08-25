@@ -17,6 +17,7 @@ class User(SqlAlchemyBase):  # таблица с пользователями
     password = sqlalchemy.Column(sqlalchemy.Text, nullable=False)
     get_telegram_notifications = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     get_gmail_notifications = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    male = sqlalchemy.Column(sqlalchemy.Text)
 
     # использование в других таблицах
     olimp = orm.relationship('Relation')

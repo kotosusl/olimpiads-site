@@ -20,5 +20,3 @@ def resolve_username_to_user_id(username: str) -> int | None:
             return r.users[0].id
         return None
 
-
-print(resolve_username_to_user_id("djordjiq"))

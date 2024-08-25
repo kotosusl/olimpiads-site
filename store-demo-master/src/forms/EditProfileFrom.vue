@@ -1,6 +1,8 @@
 <template>
   <div v-if="calculatePageSize() > 800">
-    <el-form :model="form_data" label-width="120px">
+    <el-form 
+      :model="form_data" 
+      label-width="120px">
       <el-form-item label="Фамилия">
         <el-input v-model="form_data.surname" />
       </el-form-item>
@@ -35,11 +37,14 @@
           <el-checkbox value="Telegram" label="Telegram" name="message_places" />
         </el-checkbox-group>
       </el-form-item>
-      
+      <el-form-item label="@Username">
+        <el-input v-model="form_data.telegram_name" />
+      </el-form-item>
       <el-form-item label="Предметы">
     <el-select
     v-model="form_data.subjects"
       multiple
+      filterable
       collapse-tags
       collapse-tags-tooltip
       :max-collapse-tags="3"
@@ -62,6 +67,8 @@
       </el-form-item>
     </el-form>
   </div>
+
+<!---------------Mobile-version----------------->
 
   <div v-else>
     <el-form :model="form_data" label-width="120px" label-position="top">
@@ -104,6 +111,7 @@
     <el-select
     v-model="form_data.subjects"
       multiple
+      filterable
       collapse-tags
       collapse-tags-tooltip
       :max-collapse-tags="3"
@@ -129,8 +137,12 @@
   </template>
   
   <script lang="ts" setup>
-   import { ref, reactive } from 'vue'
-  import { UserList } from '@/store/UsersData.js'
+import { ref, reactive } from 'vue'
+import { UserList } from '@/store/UsersData.js'
+import { userToken } from '@/store/tokenData';
+import router from '@/router';
+
+
   const emit = defineEmits(['onsubmit', 'oncancel'])
   
   const calculatePageSize = () => {
@@ -139,68 +151,145 @@
 };
 
 
-  let form_user = reactive(UserList().users[0]);
+let url = '/api/get_profile_info';
+let request_options = {
+   method: 'POST',
+   headers: {
+      Accept: '*/*',
+   'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+   'Content-Type': 'application/json',
+   'x-access-token': userToken.getters.get_token
+},
+body: userToken.getters.get_request
+}
+
+let form_user = ref({})
+let form_data = ref({})
+
+fetch(url, request_options)
+.then(res => res.json())
+.then(json => {
+   if (json['success'] != 'OK') {
+      router.push('/login');
+      
+   } else if (json['success'] == 'OK'){
+      form_user.value = json['profile_info'];
+      form_data.value.user_id = form_user.value['user_id'];
+      form_data.value.name = form_user.value['name'];
+      form_data.value.surname = form_user.value['surname'];
+      form_data.value.male = form_user.value['male'];
+      form_data.value.messages_places = form_user.value['messages_places'];
+      form_data.value.school_class = form_user.value['school_class'];
+      form_data.value.subjects = form_user.value['subjects'];
+      form_data.value.email = form_user.value['email'];
+      form_data.value.telegram_name = form_user.value['telegram_name']
+      if (form_user.value['name'] == null){
+        form_user.value['name'] = 'Имя';
+        form_data.value.name = '';
+      }
+      if (form_user.value['surname'] == null){
+        form_user.value['surname'] = 'Фамилия';
+        form_data.value.surname = '';
+      }
+      if (form_user.value['subjects'].length == 0){
+        form_user.value['subjects'] = ['Не выбрано'];
+        form_data.value.subjects = [];
+      }
+      if (form_user.value['school_class'] == null){
+        form_user.value['school_class'] = 11;
+
+      }
+      if (form_user.value['telegram_name'] == null){
+        form_user.value = 'Не задано';
+        form_data.value.telegram_name = '';
+      }
+      userToken.commit('set_request', "{}");
+   }
+})
+.catch(err => console.error('error:' + err));
   
-let form_data = reactive({
-   user_id: form_user.user_id,
-   name: form_user.name,
-   surname: form_user.surname,
-   male: form_user.male,
-   school_class: form_user.school_class,
-   subjects: form_user.subjects,
-   messages_places: form_user.messages_places
- })
 
 
+  const options = [{value: 'математика', label: 'Математика'}, {value: 'физика', label: 'Физика'}, 
+                                                          {value: "информатика", label: 'Информатика'}, {value: "робототехника", label: 'Робототехника'},
+                                                          {value: "черчение", label: 'Черчение'}, 
+                  {value: 'английский язык', label: 'Английский язык'}, {value: 'русский язык', label: 'Русский язык'}, 
+                                                     {value: 'немецкий язык', label: 'Немецкий язык'}, {value: 'французский язык', label: 'Французский язык'}, 
+                                                     {value: 'лингвистика', label: 'Лингвистика'}, {value: 'испанский язык', label: 'Испанский язык'}, 
+                                                     {value: 'латинский язык', label: 'Латинский язык'}, {value: 'китайский язык', label: 'Китайский язык'},
+                                                     {value: 'итальянский язык', label: 'Итальянский язык'}, {value: 'арабский язык', label: 'Арабский язык'},
+                                                     {value: 'японский язык', label: 'Японский язык'}, {value: 'корейский язык', label: 'Корейский язык'},
+                  {value: 'литература', label: 'Литература'}, {value: 'история', label: 'История'},
+                                                               {value: 'обществознание', label: 'Обществознание'}, {value: 'экономика', label: 'Экономика'},
+                                                               {value: 'право', label: 'Право'}, {value: 'обществознание', label: 'Обществознание'},
+                                                               {value: 'основы предпринимательства', label: 'Основы предпринимательства'},
+                                                               {value: 'психология', label: 'Психология'}, {value: 'менеджмент', label: 'Менеджмент'}, 
+                  {value: 'биология', label: 'Биология'}, {value: 'география', label: 'География'}, 
+                                                           {value: "химия", label: 'Химия'}, {value: 'экология', label: 'Экология'}, {value: 'астрономия', label: 'Астрономия'},
+                                                           {value: 'обществознание', label: 'Обществознание'},
+                  {value: 'обж', label: 'ОБЖ'}, {value: 'технология', label: 'Технология'},
+                                                                    {value: 'искусство', label: 'Искусство'}, {value: 'физкультура', label: 'Физкультура'},
+                                                                    {value: 'изо', label: 'ИЗО'}
+               ];
 
-  const options = [
-  {
-    value: 'Math',
-    label: 'Math',
-  },
-  {
-    value: 'Physics',
-    label: 'Physics',
-  },
-  {
-    value: 'English',
-    label: 'English',
-  },
-  {
-    value: 'Informatics',
-    label: 'Informatics',
-  },
-  {
-    value: 'Spanish',
-    label: 'Spanish',
-  },
-]
 function onCancel()
 { 
-  form_user = reactive(UserList().users[0]);
-  form_data.name = form_user.name;
-  form_data.surname = form_user.surname;
-  form_data.male = form_user.male;
-  form_data.subjects = form_user.subjects;
-  form_data.school_class = form_user.school_class;
-  form_data.user_id = form_user.user_id;
-  form_data.messages_places = form_user.messages_places;
+
+      form_data.value.user_id = form_user.value['user_id'];
+      form_data.value.name = form_user.value['name'];
+      form_data.value.surname = form_user.value['surname'];
+      form_data.value.male = form_user.value['male'];
+      form_data.value.messages_places = form_user.value['message_places'];
+      form_data.value.school_class = form_user.value['school_class'];
+      form_data.value.subjects = form_user.value['subjects'];
+      if (form_user.value['name'] == null){
+        form_user.value['name'] = 'Имя';
+        form_data.value.name = '';
+      }
+      if (form_user.value['surname'] == null){
+        form_user.value['surname'] = 'Фамилия';
+        form_data.value.surname = '';
+      }
+      if (form_user.value['subjects'].length == 0){
+        form_user.value['subjects'] = ['Не выбрано'];
+        form_data.value.subjects = [];
+      }
+      if (form_user.value['school_class'] == null){
+        form_user.value['school_class'] = 11;
+
+      }
 
    emit('oncancel')
 }
 function onUpdate()
 { 
-   UserList().users[0].name = form_data.name;
-   UserList().users[0].surname = form_data.surname;
-   UserList().users[0].male = form_data.male;
-   UserList().users[0].subjects = form_data.subjects;
-   UserList().users[0].school_class = form_data.school_class;
-   UserList().users[0].user_id = form_data.user_id;
-   UserList().users[0].messages_places = form_data.messages_places;
+  let request = JSON.stringify(form_data.value);
+      let url = '/api/edit_user_profile';
+      let request_options = {
+        method: 'POST',
+        headers: {
+          Accept: '*/*',
+          'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+          'Content-Type': 'application/json',
+          'x-access-token': userToken.getters.get_token
+        },
+        body: request
+      }
 
-   console.log('submit!')
-   emit('onsubmit', form_user)
-   emit('oncancel')
+      fetch(url, request_options)
+        .then(res => res.json())
+        .then(json => {
+          if (json['success'] != 'OK'){
+            router.push('/login');
+          } else {
+            userToken.commit('set_reload_page', '/profile')
+            router.push('/reload')
+          }
+        })
+        .catch(err => console.error('error:' + err));
+      emit('onsubmit', form_user)
+      emit('oncancel')
+    
 }
   </script>
   

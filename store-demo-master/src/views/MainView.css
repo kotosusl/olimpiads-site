@@ -3,6 +3,7 @@
     top: 0;
     width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    z-index: 1000;
 }
 
 *{
@@ -20,11 +21,16 @@
     padding-top: 50px;
 }
 
+.main-no-olimp{
+    padding: 15px;
+}
+
 .main-body-div h1 {
     font-size: 2em;
     padding-top: 50px;
     padding-left: 5%;
     padding-bottom: 15px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .main-search-div{

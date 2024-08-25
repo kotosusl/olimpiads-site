@@ -1,7 +1,7 @@
 <template>
     <div  v-if="calculatePageSize() > 800">
         <div class="body-div">
-          <router-link to="/about"><div class="register-back-button-div"><img src="/src/views/imges/arrow_left.png" alt="" class="register-back-button"></div></router-link>
+          <router-link to="/about" ><div class="register-back-button-div" @click="registerBackButtonClick()"><img src="/src/views/imges/arrow_left.png" alt="" class="register-back-button"></div></router-link>
             <div class="container">
                 <div class="form-container sign-up">
                 <el-form
@@ -13,13 +13,13 @@
                     <h1>Регистрация</h1>
                     <br>
                     <el-form-item prop="email">
-                        <el-input  v-model="ruleForm.email" type="email" placeholder="Email" />
+                        <el-input  v-model="ruleForm.email" type="email" placeholder="Email" maxlength="50"/>
                     </el-form-item>
                     <el-form-item prop="password">
-                        <el-input type="password" placeholder="Пароль" v-model="ruleForm.password" />
+                        <el-input type="password" placeholder="Пароль" v-model="ruleForm.password" maxlength="50"/>
                     </el-form-item>
                     <el-form-item prop="checkPass">
-                        <el-input type="password" placeholder="Поввтор пароля" v-model="ruleForm.checkPass"/>
+                        <el-input type="password" placeholder="Поввтор пароля" v-model="ruleForm.checkPass" maxlength="50"/>
                     </el-form-item>
                     <el-form-item>
                         <el-button color="#626aef" @click="submitForm(ruleFormRef)">Зарегистрироваться</el-button>
@@ -43,7 +43,7 @@
 
     <div v-else>
         <div class="mobile-body-div">
-          <router-link to="/about"><div class="mobile-register-back-button-div"><img src="/src/views/imges/arrow_left.png" alt="" class="mobile-register-back-button"></div></router-link>
+          <router-link to="/about"><div class="mobile-register-back-button-div" @click="registerBackButtonClick()"><img src="/src/views/imges/arrow_left.png" alt="" class="mobile-register-back-button"></div></router-link>
             <div class="mobile-container">
             <div class="mobile-form-container mobile-sign-up">
                 <el-form
@@ -83,6 +83,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const calculatePageSize = () => {
     const width = ref(window.innerWidth);
@@ -134,6 +135,26 @@ const rules = reactive<FormRules<typeof ruleForm>>({
   email: [{ validator: checkMail, trigger: 'blur' }],
 })
 
+const response = reactive({'success': ''});
+
+const errorMessage = () => {
+  ElMessage({
+    showClose: true,
+    message: response['success'],
+    type: 'error',
+    duration: 10000
+  })
+}
+
+const successMessage = () => {
+  ElMessage({
+    showClose: true,
+    message: 'Пользователь успешно зарегистрирован',
+    type: 'success',
+    duration: 10000
+  })
+}
+
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
@@ -154,17 +175,36 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
       fetch(url, options)
         .then(res => res.json())
-        .then(json => console.log(json))
+        .then(json => {
+          response['success'] = json['success'];
+          if (response['success'] != 'OK' && response['success'] != '') {
+            errorMessage();
+          } else if (response['success'] == 'OK'){
+            successMessage();
+            ruleForm.password = '';
+            ruleForm.email = '';
+            ruleForm.checkPass = '';
+          }
+        })
         .catch(err => console.error('error:' + err));
+      
+      
+      
 
-    
     } else {
-      console.log('error submit!')
+      console.log('form is empty')
       return false
     }
   })
   
 }
+
+function registerBackButtonClick() {
+  ruleForm.email = '';
+  ruleForm.checkPass = '';
+  ruleForm.password = '';
+}
+
 </script>
 
 

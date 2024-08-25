@@ -19,10 +19,12 @@ def token_required(f):
             data = jwt.decode(token, APP_CONFIG_SECRET_KEY, algorithms='HS256')
             session = db_session.create_session()
             current_user = session.query(users.User).filter(users.User.id == data['id']).first()
+            return f(current_user, *args, **kwargs)
         except Exception as err:
+            print(err)
             return jsonify({
                 'success': 'Token is invalid'
             })
-        return f(current_user, *args, **kwargs)
+
 
     return decorated

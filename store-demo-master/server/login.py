@@ -24,6 +24,6 @@ def logining():
                 }, APP_CONFIG_SECRET_KEY, algorithm='HS256')
                 return jsonify({'success': 'OK', 'token': token})
         else:
-            return jsonify({'success': 'no user with such email'})
+            return jsonify({'success': 'Неверный email или пароль'})
     else:
-        return jsonify({'success': 'no email or password'})
+        return jsonify({'success': 'Введите email и пароль'})
