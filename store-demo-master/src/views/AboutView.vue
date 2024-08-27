@@ -2,7 +2,7 @@
   <div  v-if="calculatePageSize() > 900">
     <div class="about-body-div"> 
       <nav class="about-nav"> 
-          <img src="" alt="Logo">
+          <div class="about-logo-image"><img src="/src/views/imges/Site-Logo.png" alt="Logo" class="logo-image"></div>
           <div class="about-nav-buttons">
             <router-link to="/login"><el-button color="#626aef">Войти</el-button></router-link>
             <router-link to="/register"><el-button color="#626aef">Зарегистрироваться</el-button></router-link>
@@ -10,7 +10,7 @@
       </nav>
       
       <div class="about-main">
-        <div class="about-name"><h1>Olimpiadik</h1></div>
+        <div class="about-name"><h1>Олимпик</h1></div>
         <h1 class="about-main-h1"> А ты помнишь,</h1>
         <h1 class="about-main-h1">когда олимпиада?</h1>
         <router-link to="/login"><button class="about-main-button">Войти</button></router-link>
@@ -47,7 +47,7 @@
       <div class="about-message-places">
         <div class="about-message-places-h1"><h1>Получай уведомления там, где удобно!</h1></div>
         <div class="about-message-places-images">
-          <div class="site-image about-image"><img src="/src/views/imges/img1.jpg" alt="" class="message-places-image"></div>
+          <div class="site-image about-image"><img src="/src/views/imges/Site-Logo_png.png" alt="" class="message-places-image"></div>
           <div class="gmail-image about-image"><img src="/src/views/imges/Gmail-Logo.png" alt="" class="message-places-image"></div>
           <div class="telegram-image about-image"><img src="/src/views/imges/Telegram-Logo.png" alt="" class="message-places-image"></div>
           <div class="vk-image about-image"><h1>(В разработке)</h1></div>
@@ -65,13 +65,13 @@
   <div v-else>
     <div class="about-mobile-body-div"> 
       <nav class="about-mobile-nav">
-        <img src="" alt="Logo">
+        <div><img src="/src/views/imges/Site-Logo_png.png" alt="Logo" class="logo-image"></div>
           <div class="about-mobile-nav-buttons">
             <router-link to="/login"><el-button color="#626aef">Войти</el-button></router-link>
           </div>
       </nav>
       <div class="about-mobile-main">
-        <div class="about-mobile-name"><h1>Olimpiadik</h1></div>
+        <div class="about-mobile-name"><h1>Олимпик</h1></div>
         <h1 class="about-mobile-main-h1"> А ты помнишь,</h1>
         <h1 class="about-mobile-main-h1">когда олимпиада?</h1>
         <router-link to="/login"><button class="about-mobile-main-button">Войти</button></router-link>
@@ -112,7 +112,7 @@
         <div class="about-mobile-message-places-h1"><h1>Получай уведомления там, где удобно!</h1></div>
         <div class="about-mobile-message-places-images">
           <el-row>
-            <div class="mobile-site-image about-mobile-image"><img src="/src/views/imges/img1.jpg" alt="" class="mobile-message-places-image"></div>
+            <div class="mobile-site-image about-mobile-image"><img src="/src/views/imges/Site-Logo_png.png" alt="" class="mobile-message-places-image"></div>
             <div class="mobile-gmail-image about-mobile-image"><img src="/src/views/imges/Gmail-Logo.png" alt="" class="mobile-message-places-image"></div>
           </el-row>
           <el-row>
