@@ -44,11 +44,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 
-
 if __name__ == "__main__":
     db_session.global_init("../db/main_database.db")
     load_subjects()
-    #new_olimpycs()
+    new_olimpycs()
     schedule.every(30).days.at('12:00').do(checker_dates_olimps)
 
     app.run(host='127.0.0.1', port=8888)
