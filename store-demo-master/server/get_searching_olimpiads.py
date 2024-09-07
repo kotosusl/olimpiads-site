@@ -17,11 +17,10 @@ def get_searching_olimpiads(current_user):
         q = q.join(olimp_subject.Olimp_Subject,
                    olimpics.Olimp.id == olimp_subject.Olimp_Subject.olimp).join(subjects.Subject,
                                                                                 subjects.Subject.id == olimp_subject.Olimp_Subject.subject).where(
-            subjects.Subject.name.in_(json_obj['subjects']))
+            subjects.Subject.name == json_obj['subjects'])
     if json_obj.get('search_class', 0):
         q = q.where(olimpics.Olimp.min_class <= int(json_obj['search_class'])).where(
             olimpics.Olimp.max_class >= int(json_obj['search_class']))
-    q = q.limit(50)
     search_olimps = session.execute(q)
     if json_obj.get('name_olimp', 0) and json_obj['name_olimp']:
         s = []
@@ -29,6 +28,10 @@ def get_searching_olimpiads(current_user):
             if json_obj['name_olimp'].lower() in i[0].name.lower():
                 s.append(i)
         search_olimps = s.copy()
+
+    search_olimps = list(search_olimps)
+    if len(search_olimps) > 50:
+        search_olimps = search_olimps[:50]
     """
     if json_obj.get('subjects', 0):
         ids_search_subjects = [p[0] for p in session.query(subjects.Subject.id).filter(subjects.Subject.name.in_(json_obj['subjects'])).all()]
@@ -60,7 +63,7 @@ def get_searching_olimpiads(current_user):
                 'user_have': ('True' if list(session.execute(select(user_olimpyc.Relation).select_from(user_olimpyc.Relation).where(
                     (user_olimpyc.Relation.user == current_user.id) & (user_olimpyc.Relation.olimp == p[0].id)
                 ))) else 'False')
-            } for p in list(search_olimps)
+            } for p in search_olimps
         ]
     }
 
