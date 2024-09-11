@@ -1,14 +1,11 @@
 import logging
 from secret_keys import TELEGRAM_BOT_TOKEN
 import asyncio
-from datetime import datetime
 from aiogram import Bot, Dispatcher, executor, types
-from check_user_in_db import check_user_telegram_id_in_db
 from data import db_session, users, usernames_in_bot
 from sqlalchemy import select
 from uuid import uuid4
 from checker_dates_olimps import checker_dates_olimps
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from keyboards import menu_keyboard_with_notif, menu_keyboard_without_notif
 
 API_TOKEN = TELEGRAM_BOT_TOKEN
@@ -23,7 +20,9 @@ chat_ids = {}
 @dp.message_handler(commands='start')
 async def send_start_message(message: types.Message):
     session = db_session.create_session()
-    if list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
+    if list(session.execute(
+            select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
+                    usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
         text = f"""Привет, {message.from_user.full_name}!
 Вы уже успешно привязали аккаунт к боту. 
 Здесь будут приходить уведомления о тех олимпиадах, которые вы выбрали на сайте {'domen site'}."""
@@ -50,7 +49,7 @@ async def send_start_message(message: types.Message):
 @dp.message_handler(commands='help')
 async def send_help_message(message: types.Message):
     text = """Бот поддерживает следующие команды:
-                           
+    
 1. /start - Приветствие, подтверждение привязки аккаутна к боту.
 2. /help - Помощь (данное сообщение).
 3. /to_main_site - Перейти на сайт с олимпиадами
