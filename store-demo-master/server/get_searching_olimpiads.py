@@ -3,6 +3,7 @@ from flask import jsonify, request, Blueprint
 from token_required import token_required
 from sqlalchemy import select
 from data import subjects, olimp_subject, olimpics, user_olimpyc
+from random import shuffle
 
 blueprint_get_searching_olimpiads = Blueprint('blueprint_get_searching_olimpiads', __name__)
 
@@ -31,6 +32,7 @@ def get_searching_olimpiads(current_user):
 
     search_olimps = list(search_olimps)
     if len(search_olimps) > 50:
+        shuffle(search_olimps)
         search_olimps = search_olimps[:50]
     """
     if json_obj.get('subjects', 0):
