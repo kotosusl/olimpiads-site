@@ -1,9 +1,11 @@
 from pyrogram import Client
 from pyrogram.raw.functions.contacts import ResolveUsername
-from secret_keys import TELEGRAM_BOT_TOKEN, BOT_API_ID, BOT_API_HASH
+# from secret_keys import TELEGRAM_BOT_TOKEN, BOT_API_ID, BOT_API_HASH
+from os import environ
 
-BOT_TOKEN = TELEGRAM_BOT_TOKEN
-
+BOT_API_ID = environ.get('BOT_API_ID','')
+BOT_TOKEN = environ.get('TELEGRAM_BOT_TOKEN','')
+BOT_API_HASH = environ.get('BOT_API_HASH','')
 
 pyrogram_client = Client(
     "bot",

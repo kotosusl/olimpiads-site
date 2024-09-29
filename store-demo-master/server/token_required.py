@@ -3,8 +3,10 @@ from data import users
 from flask import jsonify, request
 import jwt
 from functools import wraps
-from secret_keys import APP_CONFIG_SECRET_KEY
+# from secret_keys import APP_CONFIG_SECRET_KEY
+from os import environ
 
+APP_CONFIG_SECRET_KEY = environ.get('APP_CONFIG_SECRET_KEY','')
 
 def token_required(f):
     @wraps(f)

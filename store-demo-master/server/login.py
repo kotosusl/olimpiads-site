@@ -4,8 +4,10 @@ from werkzeug.security import check_password_hash
 from flask import jsonify, request, Blueprint
 import jwt
 from datetime import datetime, timedelta
-from secret_keys import APP_CONFIG_SECRET_KEY
+# from secret_keys import APP_CONFIG_SECRET_KEY
+from os import environ
 
+APP_CONFIG_SECRET_KEY = environ.get('APP_CONFIG_SECRET_KEY','')
 
 blueprint_login = Blueprint('blueprint_login', __name__)
 

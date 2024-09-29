@@ -1,0 +1,17 @@
+version: "3"
+
+dotenv: [".env"]
+
+tasks:
+  up:
+    cmds:
+      - docker compose up -d --build
+  
+  down:
+    cmds:
+      - docker compose down
+
+  restart:
+    cmds:
+      - task: down
+      - task: up

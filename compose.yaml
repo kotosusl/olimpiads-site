@@ -1,0 +1,40 @@
+services:
+  main-server:
+    image: olimpik/server
+    build:
+      context: ./store-demo-master
+      dockerfile: server.Dockerfile
+    env_file: ".env"
+    environment:
+      APP_CONFIG_SECRET_KEY: ${APP_CONFIG_SECRET_KEY}
+      TOKEN_ALGORITHM: ${TOKEN_ALGORITHM}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      BOT_API_ID: ${BOT_API_ID}
+      BOT_API_HASH: ${BOT_API_HASH}
+      SITE_EMAIL_ADDRESS: ${SITE_EMAIL_ADDRESS}
+      SITE_EMAIL_PASSWORD: ${SITE_EMAIL_PASSWORD}
+    volumes:
+      - olimpik-data:/db
+    ports:
+      - "127.0.0.1:8888:8888"
+
+  main-bot:
+    image: olimpik/bot
+    build:
+      context: ./store-demo-master
+      dockerfile: bot.Dockerfile
+    env_file: ".env"
+    environment:
+      APP_CONFIG_SECRET_KEY: ${APP_CONFIG_SECRET_KEY}
+      TOKEN_ALGORITHM: ${TOKEN_ALGORITHM}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      BOT_API_ID: ${BOT_API_ID}
+      BOT_API_HASH: ${BOT_API_HASH}
+      SITE_EMAIL_ADDRESS: ${SITE_EMAIL_ADDRESS}
+      SITE_EMAIL_PASSWORD: ${SITE_EMAIL_PASSWORD}    
+    volumes:
+      - olimpik-data:/db
+
+volumes:
+  olimpik-data:
+

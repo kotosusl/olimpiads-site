@@ -1,5 +1,5 @@
 import logging
-from secret_keys import TELEGRAM_BOT_TOKEN
+# from secret_keys import TELEGRAM_BOT_TOKEN
 import asyncio
 from aiogram import Bot, Dispatcher, executor, types
 from data import db_session, users, usernames_in_bot
@@ -7,8 +7,10 @@ from sqlalchemy import select
 from uuid import uuid4
 from checker_dates_olimps import checker_dates_olimps
 from keyboards import menu_keyboard_with_notif, menu_keyboard_without_notif
+from os import environ
 
-API_TOKEN = TELEGRAM_BOT_TOKEN
+API_TOKEN = environ.get('TELEGRAM_BOT_TOKEN','')
+
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
