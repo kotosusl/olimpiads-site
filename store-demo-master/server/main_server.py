@@ -1,7 +1,7 @@
 from flask import Flask
 from data import db_session
 from flask_restful import Api
-from secret_keys import APP_CONFIG_SECRET_KEY
+# from secret_keys import APP_CONFIG_SECRET_KEY
 from add_user import blueprint_add_user
 from login import blueprint_login
 from get_searching_olimpiads import blueprint_get_searching_olimpiads
@@ -17,7 +17,9 @@ from remove_olimp_user import blueprint_remove_olimp_user
 from get_profile_info import blueprint_get_profile_info
 from get_user_olimps import blueprint_get_user_olimps
 from check_telegram_name import blueprint_check_telegram_name
+from os import environ
 
+APP_CONFIG_SECRET_KEY = environ.get('APP_CONFIG_SECRET_KEY','')
 
 app = Flask(__name__)
 app.register_blueprint(blueprint_login)
@@ -43,7 +45,7 @@ if __name__ == "__main__":
     new_olimpycs()
     schedule.every(30).days.at('12:00').do(checker_dates_olimps)
 
-    app.run(host='127.0.0.1', port=8888)
+    app.run(host='0.0.0.0', port=8888)
 
 
 
