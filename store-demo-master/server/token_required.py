@@ -6,7 +6,9 @@ from functools import wraps
 # from secret_keys import APP_CONFIG_SECRET_KEY
 from os import environ
 
-APP_CONFIG_SECRET_KEY = environ.get('APP_CONFIG_SECRET_KEY','')
+APP_CONFIG_SECRET_KEY = environ.get('APP_CONFIG_SECRET_KEY', '')
+TOKEN_ALGORITHM = environ.get('TOKEN_ALGORITHM', '')
+
 
 def token_required(f):
     @wraps(f)
@@ -18,9 +20,10 @@ def token_required(f):
             return jsonify({'success': 'Token is missing'})
 
         try:
-            data = jwt.decode(token, APP_CONFIG_SECRET_KEY, algorithms='HS256')
+            data = jwt.decode(token, APP_CONFIG_SECRET_KEY, algorithms=TOKEN_ALGORITHM)
             session = db_session.create_session()
             current_user = session.query(users.User).filter(users.User.id == data['id']).first()
+            session.close()
             return f(current_user, *args, **kwargs)
         except Exception as err:
             print(err)

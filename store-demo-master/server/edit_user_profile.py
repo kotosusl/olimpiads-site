@@ -30,6 +30,7 @@ def editing_user_profile(current_user):
         if valid_telegram_name(json_obj['telegram_name']) == 'OK':
             user.telegram_name = json_obj['telegram_name']
         else:
+            session.close()
             return jsonify({"success": valid_telegram_name(json_obj['telegram_name'])})
     else:
         user.telegram_name = None
@@ -62,4 +63,5 @@ def editing_user_profile(current_user):
         user.male = json_obj['male']
 
     session.commit()
+    session.close()
     return jsonify({"success": "OK"})

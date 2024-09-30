@@ -37,6 +37,7 @@ def get_one_olimp(current_user):
             }
         else:
             jsn = {'success': 'no olimp_id'}
+        session.close()
         return jsonify(jsn)
     except Exception as err:
         return jsonify({'success': 'ERROR'})

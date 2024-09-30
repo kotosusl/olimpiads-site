@@ -15,3 +15,4 @@ def load_subjects():
                 session.add(Subject(id=int(dct[i]),
                                     name=i))
                 session.commit()
+    session.close()

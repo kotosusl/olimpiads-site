@@ -24,13 +24,17 @@ def adding_user():
                                       password=generate_password_hash(json_obj['password']))
                 session.add(new_user)
                 session.commit()
+                session.close()
                 return jsonify({'success': 'OK'})
             else:
+                session.close()
                 return jsonify({'success': 'Email уже зарегистрирован'}), 202
         else:
+            session.close()
             return jsonify({'success': 'Неверный Email или пароль'})
     except Exception as err:
         print(err)
+
         return jsonify({'success': 'ERROR'}), 500
 
 

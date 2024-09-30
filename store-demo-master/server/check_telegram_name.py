@@ -20,11 +20,13 @@ def check_telegram_name(current_user):
     q = select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(usernames_in_bot.Usernames_in_bot.telegram_username == current_user.telegram_name)
     user = list(session.execute(q))
     if len(user) == 0:
+        session.close()
         return jsonify({'success': 'OK',
                         'info': 'Username не найден. Проверьте имя пользователя в Telegram на наличие ошибок. Перейдите в бот и нажмите "Старт".'})
     else:
         user = session.query(users.User).where(users.User.telegram_name == current_user.telegram_name).first()
         user.telegram_id = session.query(usernames_in_bot.Usernames_in_bot.user_telegram_id).where(usernames_in_bot.Usernames_in_bot.telegram_username == current_user.telegram_name).first()[0]
         session.commit()
+        session.close()
         return jsonify({'success': 'OK', 'info': 'Username подтверждён.'})
 
