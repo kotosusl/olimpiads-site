@@ -47,6 +47,6 @@ def get_user_olimps(current_user):
             } for p in list(selection_olimps)
         ]
     }
-
+    session.close()
     return jsonify(jsn)
 

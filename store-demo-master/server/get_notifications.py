@@ -26,4 +26,5 @@ def get_notifications(current_user):
             } for p in res
         ]
     }
+    session.close()
     return jsn

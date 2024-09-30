@@ -16,11 +16,14 @@ def remove_olimp_user(current_user):
     json_obj = request.get_json() or {}
     if json_obj.get('olimp_id', 0):
         if not session.query(user_olimpyc.Relation).filter(user_olimpyc.Relation.olimp == json_obj['olimp_id']).all():
+            session.close()
             return jsonify({'success': 'OK', 'info': 'Уведомления уже отключены'})
         else:
             query = delete(user_olimpyc.Relation).where((user_olimpyc.Relation.olimp == json_obj['olimp_id']) & (user_olimpyc.Relation.user == current_user.id))
             session.execute(query)
             session.commit()
+            session.close()
             return jsonify({'success': 'OK'})
     else:
+        session.close()
         return jsonify({'success': 'there is no olimp id'})

@@ -48,4 +48,4 @@ def new_olimpycs():  # загрузка олимпиад в бд
                                                           int(first_day[2])) + timedelta(days=int(j['length'])),
                                             event=j.find('span', class_='tl_cont_f').find('font').get_text()))
                         session.commit()  # добавление сроков олимпиады"""
-
+    session.close()

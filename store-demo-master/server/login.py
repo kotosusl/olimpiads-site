@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from os import environ
 
 APP_CONFIG_SECRET_KEY = environ.get('APP_CONFIG_SECRET_KEY','')
+TOKEN_ALGORITHM = environ.get('TOKEN_ALGORITHM', '')
 
 blueprint_login = Blueprint('blueprint_login', __name__)
 
@@ -23,9 +24,12 @@ def logining():
                 token = jwt.encode({
                     'id': user_in_db[0].id,
                     'exp': datetime.utcnow() + timedelta(hours=1)
-                }, APP_CONFIG_SECRET_KEY, algorithm='HS256')
+                }, APP_CONFIG_SECRET_KEY, algorithm=TOKEN_ALGORITHM)
+                session.close()
                 return jsonify({'success': 'OK', 'token': token})
         else:
+            session.close()
             return jsonify({'success': 'Неверный email или пароль'})
     else:
+        session.close()
         return jsonify({'success': 'Введите email и пароль'})

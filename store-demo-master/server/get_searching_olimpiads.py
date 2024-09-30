@@ -68,5 +68,5 @@ def get_searching_olimpiads(current_user):
             } for p in search_olimps
         ]
     }
-
+    session.close()
     return jsonify(jsn)

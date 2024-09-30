@@ -38,6 +38,7 @@ def get_profile_info(current_user):
                     "telegram_name": profile_info.telegram_name
                 }
             }
+        session.close()
         return jsonify(jsn)
     except Exception as err:
         return jsonify({'success': 'ERROR'})

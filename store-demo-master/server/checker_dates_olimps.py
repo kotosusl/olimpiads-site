@@ -52,5 +52,5 @@ def checker_dates_olimps():
                     session.commit()
                     if j[0].get_telegram_notifications:
                         users_telegram_ids_and_msgs.append((j[0].telegram_id, msg))
-
+    session.close()
     return users_telegram_ids_and_msgs

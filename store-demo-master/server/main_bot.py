@@ -32,8 +32,10 @@ async def send_start_message(message: types.Message):
         q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
         curr_user = list(session.execute(q))[0][0]
         if curr_user.get_telegram_notifications:
+            session.close()
             await message.reply(text, reply_markup=menu_keyboard_with_notif)
         else:
+            session.close()
             await message.reply(text, reply_markup=menu_keyboard_without_notif)
 
     else:
@@ -42,6 +44,7 @@ async def send_start_message(message: types.Message):
                                                                user_telegram_id=message.from_user.id)
         session.add(new_username_in_db)
         session.commit()
+        session.close()
         await message.reply(f"""Привет, {message.from_user.full_name}!
 В этом боте Вы сможете получать уведомления о тех олимпиадах, которые Вы выбрали на сайте {'domen site'}. Для продолжения перейдите на сайт, укажите Ваше имя пользователя Telegram(username) и нажмите "Проверить username".""",
                             reply=False)
@@ -62,8 +65,10 @@ async def send_help_message(message: types.Message):
     q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
     curr_user = list(session.execute(q))[0][0]
     if curr_user.get_telegram_notifications:
+        session.close()
         await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
     else:
+        session.close()
         await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
 
 
@@ -76,8 +81,10 @@ async def to_main_site(message: types.Message):
     q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
     curr_user = list(session.execute(q))[0][0]
     if curr_user.get_telegram_notifications:
+        session.close()
         await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
     else:
+        session.close()
         await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
 
 
@@ -93,6 +100,7 @@ async def delete_notifications(message: types.Message):
 
     else:
         text = 'Уведомления не были включены'
+    session.close()
     await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
 
 
@@ -108,6 +116,7 @@ async def add_notifications(message: types.Message):
 
     else:
         text = 'Уведомления не были включены'
+    session.close()
     await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
 
 
