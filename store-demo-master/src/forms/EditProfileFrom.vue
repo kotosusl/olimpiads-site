@@ -63,7 +63,7 @@
       <el-form-item>
         <br>
         <el-button type="primary" color="#626aef" @click="onUpdate">Сохранить</el-button>
-        <el-button @click="onCancel">Отмена</el-button>
+        <!--<el-button @click="onCancel">Отмена</el-button>-->
       </el-form-item>
     </el-form>
   </div>
@@ -130,7 +130,7 @@
       <el-form-item>
         <br>
         <el-button type="primary" color="#626aef" @click="onUpdate">Сохранить</el-button>
-        <el-button @click="onCancel">Отмена</el-button>
+        <!--<el-button @click="onCancel">Отмена</el-button>-->
       </el-form-item>
     </el-form>
   </div>
