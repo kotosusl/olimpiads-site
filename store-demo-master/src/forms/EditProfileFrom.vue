@@ -26,8 +26,8 @@
         </el-form-item>
         <el-form-item label="Пол">
         <el-radio-group v-model="form_data.male">
-          <el-radio value="M" label="M" />
-          <el-radio value="F" label="F" />
+          <el-radio value="Мужской" label="M" />
+          <el-radio value="Женский" label="F" />
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Уведомления">
