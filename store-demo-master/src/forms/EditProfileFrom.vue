@@ -24,7 +24,7 @@
           <el-option label="11" value="11" />
         </el-select>
         </el-form-item>
-        <el-form-item label="Пол">
+        <el-form-item label="Пол 1234">
         <el-radio-group v-model="form_data.male">
           <el-radio value="Мужской" label="M" />
           <el-radio value="Женский" label="F" />
