@@ -24,10 +24,10 @@
           <el-option label="11" value="11" />
         </el-select>
         </el-form-item>
-        <el-form-item label="Пол 1234">
+        <el-form-item label="Пол">
         <el-radio-group v-model="form_data.male">
-          <el-radio value="M" label="M" />
-          <el-radio value="F" label="F" />
+          <el-radio value="M" label="M">Мужской</el-radio> />
+          <el-radio value="F" label="F">Женский</el-radio>/>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Уведомления">
@@ -95,8 +95,8 @@
         </el-form-item>
         <el-form-item label="Пол">
         <el-radio-group v-model="form_data.male">
-          <el-radio label="M">Мужской</el-radio>
-            <el-radio label="F">Женский</el-radio>
+          <el-radio value="M" label="M">Мужской</el-radio>
+          <el-radio value="F" label="F">Женский</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="Уведомления">
@@ -106,7 +106,9 @@
           <el-checkbox value="Telegram" label="Telegram" name="message_places" />
         </el-checkbox-group>
       </el-form-item>
-      
+      <el-form-item label="@Username">
+        <el-input v-model="form_data.telegram_name" />
+      </el-form-item>
       <el-form-item label="Предметы">
     <el-select
     v-model="form_data.subjects"

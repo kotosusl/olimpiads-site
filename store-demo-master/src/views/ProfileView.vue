@@ -14,7 +14,7 @@
         <el-menu-item index="/user/select_olimps" :route="{ name: 'select_olimps' }">Мои олимпиады</el-menu-item></el-menu>
          <div class="profile-information">
          <div class="profile-page-name">
-            <h1>Профиль 1234</h1>
+            <h1>Профиль</h1>
          </div>
       <div class="profile-avatar-and-user-info">
          <div class="profile-avatar">
