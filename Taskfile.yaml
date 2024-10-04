@@ -6,12 +6,18 @@ tasks:
   up:
     cmds:
       - docker compose up -d --build
-  
+
   down:
     cmds:
       - docker compose down
+
+  distcopy:
+    dir: ./store-demo-master/dist
+    cmds:
+      - cp -R * /var/www/olimpik.klsh.ru/
 
   restart:
     cmds:
       - task: down
       - task: up
+      - task: distcopy
