@@ -12,3 +12,5 @@ menu_keyboard_with_notif = ReplyKeyboardMarkup(resize_keyboard=True, one_time_ke
 
 menu_keyboard_without_notif = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
                                    row_width=1).add(to_site_btn, send_help_btn, add_telegram_notif_btn)
+menu_keyboard_start = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
+                                          row_width=1).add(to_site_btn, send_help_btn)

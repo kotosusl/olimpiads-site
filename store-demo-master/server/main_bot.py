@@ -6,7 +6,7 @@ from data import db_session, users, usernames_in_bot
 from sqlalchemy import select
 from uuid import uuid4
 from checker_dates_olimps import checker_dates_olimps
-from keyboards import menu_keyboard_with_notif, menu_keyboard_without_notif
+from keyboards import menu_keyboard_with_notif, menu_keyboard_without_notif, menu_keyboard_start
 from os import environ
 
 API_TOKEN = environ.get('TELEGRAM_BOT_TOKEN','')
@@ -47,7 +47,7 @@ async def send_start_message(message: types.Message):
         session.close()
         await message.reply(f"""Привет, {message.from_user.full_name}!
 В этом боте Вы сможете получать уведомления о тех олимпиадах, которые Вы выбрали на сайте {'domen site'}. Для продолжения перейдите на сайт, укажите Ваше имя пользователя Telegram(username) и нажмите "Проверить username".""",
-                            reply=False)
+                            reply=False, reply_markup=menu_keyboard_start)
 
 
 @dp.message_handler(text=["Помощь"])
@@ -75,8 +75,7 @@ async def send_help_message(message: types.Message):
 @dp.message_handler(text=['Перейти на сайт с олимпиадами'])
 @dp.message_handler(commands='/to_main_site')
 async def to_main_site(message: types.Message):
-    # Добавить переход с появлением хостинга
-    text = f'Упс, что-то пошло не так, попробуйте позже или самостоятельно перейти на {"domen site"}'
+    text = f'Упс, что-то пошло не так, попробуйте позже или самостоятельно перейти на https://olimpik.klsh.ru'
     session = db_session.create_session()
     q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
     curr_user = list(session.execute(q))[0][0]
@@ -99,7 +98,7 @@ async def delete_notifications(message: types.Message):
         text = "Уведомления в боте успешно отключены"
 
     else:
-        text = 'Уведомления не были включены'
+        text = 'Уведомления уже выключены'
     session.close()
     await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
 
@@ -115,7 +114,7 @@ async def add_notifications(message: types.Message):
         text = "Уведомления в боте успешно включены"
 
     else:
-        text = 'Уведомления не были включены'
+        text = 'Уведомления уже включены'
     session.close()
     await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
 
@@ -133,7 +132,7 @@ async def f():
 
 
 if __name__ == '__main__':
-    db_session.global_init("../db/main_database_best.db")
+    db_session.global_init("../db/main_database.db")
 
     loop.create_task(f())
     loop.create_task(send_notifications_in_telegram_bot())
