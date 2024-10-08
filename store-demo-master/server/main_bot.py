@@ -53,23 +53,27 @@ async def send_start_message(message: types.Message):
 @dp.message_handler(text=["Помощь"])
 @dp.message_handler(commands='help')
 async def send_help_message(message: types.Message):
-    text = """Бот поддерживает следующие команды:
-    
-1. /start - Приветствие, подтверждение привязки аккаутна к боту.
-2. /help - Помощь (данное сообщение).
-3. /to_main_site - Перейти на сайт с олимпиадами
-4. /delete_notifications - Больше не присылать уведомления в боте.
-5. /add_notifications - Начать присылать уведомления в боте."""
+    try:
+        text = """Бот поддерживает следующие команды:
+        
+    1. /start - Приветствие, подтверждение привязки аккаутна к боту.
+    2. /help - Помощь (данное сообщение).
+    3. /to_main_site - Перейти на сайт с олимпиадами
+    4. /delete_notifications - Больше не присылать уведомления в боте.
+    5. /add_notifications - Начать присылать уведомления в боте."""
 
-    session = db_session.create_session()
-    q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
-    curr_user = list(session.execute(q))[0][0]
-    if curr_user.get_telegram_notifications:
-        session.close()
-        await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
-    else:
-        session.close()
-        await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
+        session = db_session.create_session()
+        q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
+        curr_user = list(session.execute(q))[0][0]
+        if curr_user.get_telegram_notifications:
+            session.close()
+            await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
+        else:
+            session.close()
+            await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
+    except Exception as err:
+        await bot.send_message(message.from_user.id, err, reply_markup=menu_keyboard_with_notif)
+
 
 
 @dp.message_handler(text=['Перейти на сайт с олимпиадами'])
