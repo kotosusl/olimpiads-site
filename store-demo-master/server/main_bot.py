@@ -21,34 +21,36 @@ chat_ids = {}
 
 @dp.message_handler(commands='start')
 async def send_start_message(message: types.Message):
-    session = db_session.create_session()
-    if list(session.execute(
-            select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
-                    usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
-        text = f"""Привет, {message.from_user.full_name}!
+    try:
+        session = db_session.create_session()
+        if list(session.execute(
+                select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
+                        usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
+            text = f"""Привет, {message.from_user.full_name}!
 Вы уже успешно привязали аккаунт к боту. 
 Здесь будут приходить уведомления о тех олимпиадах, которые вы выбрали на сайте https://olimpik.klsh.ru. Команды бота: /help."""
 
-        q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
-        curr_user = list(session.execute(q))[0][0]
-        if curr_user.get_telegram_notifications:
-            session.close()
-            await message.reply(text, reply_markup=menu_keyboard_with_notif)
+            q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
+            curr_user = list(session.execute(q))[0][0]
+            if curr_user.get_telegram_notifications:
+                session.close()
+                await message.reply(text, reply_markup=menu_keyboard_with_notif)
+            else:
+                session.close()
+                await message.reply(text, reply_markup=menu_keyboard_without_notif)
+
         else:
+            new_username_in_db = usernames_in_bot.Usernames_in_bot(id=str(uuid4()),
+                                                                   telegram_username=message.from_user.username,
+                                                                   user_telegram_id=message.from_user.id)
+            session.add(new_username_in_db)
+            session.commit()
             session.close()
-            await message.reply(text, reply_markup=menu_keyboard_without_notif)
-
-    else:
-        new_username_in_db = usernames_in_bot.Usernames_in_bot(id=str(uuid4()),
-                                                               telegram_username=message.from_user.username,
-                                                               user_telegram_id=message.from_user.id)
-        session.add(new_username_in_db)
-        session.commit()
-        session.close()
-        await message.reply(f"""Привет, {message.from_user.full_name}!
+            await message.reply(f"""Привет, {message.from_user.full_name}!
 В этом боте Вы сможете получать уведомления о тех олимпиадах, которые Вы выбрали на сайте https://olimpik.klsh.ru. Для продолжения перейдите на сайт, укажите Ваше имя пользователя Telegram(username) и нажмите "Проверить username". Помощь в боте: /help""",
-                            reply=False, reply_markup=menu_keyboard_start)
-
+                                reply=False, reply_markup=menu_keyboard_start)
+    except Exception as err:
+        await bot.send_message(1393667810, err)
 
 @dp.message_handler(text=["Помощь"])
 @dp.message_handler(commands='help')
@@ -79,56 +81,68 @@ async def send_help_message(message: types.Message):
 @dp.message_handler(text=['Перейти на сайт с олимпиадами'])
 @dp.message_handler(commands='/to_main_site')
 async def to_main_site(message: types.Message):
-    text = f'Упс, что-то пошло не так, попробуйте позже или самостоятельно перейти на https://olimpik.klsh.ru'
-    session = db_session.create_session()
-    q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
-    curr_user = list(session.execute(q))[0][0]
-    if curr_user.get_telegram_notifications:
-        session.close()
-        await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
-    else:
-        session.close()
-        await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
+    try:
+        text = f'Упс, что-то пошло не так, попробуйте позже или самостоятельно перейти на https://olimpik.klsh.ru'
+        session = db_session.create_session()
+        q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
+        curr_user = list(session.execute(q))[0][0]
+        if curr_user.get_telegram_notifications:
+            session.close()
+            await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
+        else:
+            session.close()
+            await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
+    except Exception as err:
+        await bot.send_message(1393667810, err)
 
 
 @dp.message_handler(text=['Не присылать уведомления в боте'])
 @dp.message_handler(commands='delete_notifications')
 async def delete_notifications(message: types.Message):
-    session = db_session.create_session()
-    curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id).first()
-    if curr_user.get_telegram_notifications:
-        curr_user.get_telegram_notifications = 0
-        session.commit()
-        text = "Уведомления в боте успешно отключены"
+    try:
+        session = db_session.create_session()
+        curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id).first()
+        if curr_user.get_telegram_notifications:
+            curr_user.get_telegram_notifications = 0
+            session.commit()
+            text = "Уведомления в боте успешно отключены"
 
-    else:
-        text = 'Уведомления уже выключены'
-    session.close()
-    await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
+        else:
+            text = 'Уведомления уже выключены'
+        session.close()
+        await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
+    except Exception as err:
+        await bot.send_message(1393667810, err)
 
 
 @dp.message_handler(text=['Включить уведомления в боте'])
 @dp.message_handler(commands='add_notifications')
 async def add_notifications(message: types.Message):
-    session = db_session.create_session()
-    curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id).first()
-    if curr_user.get_telegram_notifications == 0:
-        curr_user.get_telegram_notifications = 1
-        session.commit()
-        text = "Уведомления в боте успешно включены"
+    try:
+        session = db_session.create_session()
+        curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id).first()
+        if curr_user.get_telegram_notifications == 0:
+            curr_user.get_telegram_notifications = 1
+            session.commit()
+            text = "Уведомления в боте успешно включены"
 
-    else:
-        text = 'Уведомления уже включены'
-    session.close()
-    await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
+        else:
+            text = 'Уведомления уже включены'
+        session.close()
+        await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_with_notif)
+    except Exception as err:
+        await bot.send_message(1393667810, err)
 
 
 async def send_notifications_in_telegram_bot():
-    while True:
-        users_of_sending = checker_dates_olimps()
-        for user_telegram_id, user_msg in users_of_sending:
-            await bot.send_message(user_telegram_id, user_msg)
-        await asyncio.sleep(86390)
+    try:
+        while True:
+            users_of_sending = checker_dates_olimps()
+            for user_telegram_id, user_msg in users_of_sending:
+                await bot.send_message(user_telegram_id, user_msg)
+            await asyncio.sleep(86390)
+    except Exception as err:
+        await bot.send_message(1393667810, err)
 
 
 async def f():
