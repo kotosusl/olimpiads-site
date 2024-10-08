@@ -2,7 +2,7 @@ from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButt
     InlineKeyboardMarkup, InlineKeyboardButton
 
 
-to_site_btn = KeyboardButton(text='Перейти на сайт с олимпиадами')
+to_site_btn = KeyboardButton(text='Перейти на сайт с олимпиадами', url='https://olimpik.klsh.ru')
 send_help_btn = KeyboardButton(text='Помощь')
 delete_telegram_notif_btn = KeyboardButton(text='Не присылать уведомления в боте')
 add_telegram_notif_btn = KeyboardButton(text='Включить уведомления в боте')
