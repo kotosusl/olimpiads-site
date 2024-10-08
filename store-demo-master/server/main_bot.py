@@ -27,7 +27,7 @@ async def send_start_message(message: types.Message):
                     usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
         text = f"""Привет, {message.from_user.full_name}!
 Вы уже успешно привязали аккаунт к боту. 
-Здесь будут приходить уведомления о тех олимпиадах, которые вы выбрали на сайте {'domen site'}."""
+Здесь будут приходить уведомления о тех олимпиадах, которые вы выбрали на сайте https://olimpik.klsh.ru. Команды бота: /help."""
 
         q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
         curr_user = list(session.execute(q))[0][0]
@@ -46,7 +46,7 @@ async def send_start_message(message: types.Message):
         session.commit()
         session.close()
         await message.reply(f"""Привет, {message.from_user.full_name}!
-В этом боте Вы сможете получать уведомления о тех олимпиадах, которые Вы выбрали на сайте {'domen site'}. Для продолжения перейдите на сайт, укажите Ваше имя пользователя Telegram(username) и нажмите "Проверить username".""",
+В этом боте Вы сможете получать уведомления о тех олимпиадах, которые Вы выбрали на сайте https://olimpik.klsh.ru. Для продолжения перейдите на сайт, укажите Ваше имя пользователя Telegram(username) и нажмите "Проверить username". Помощь в боте: /help""",
                             reply=False, reply_markup=menu_keyboard_start)
 
 
