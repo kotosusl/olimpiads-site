@@ -52,6 +52,7 @@ async def send_start_message(message: types.Message):
     except Exception as err:
         await bot.send_message(1393667810, err)
 
+
 @dp.message_handler(text=["Помощь"])
 @dp.message_handler(commands='help')
 async def send_help_message(message: types.Message):
@@ -75,7 +76,6 @@ async def send_help_message(message: types.Message):
             await bot.send_message(message.from_user.id, text, reply_markup=menu_keyboard_without_notif)
     except Exception as err:
         await bot.send_message(message.from_user.id, err, reply_markup=menu_keyboard_with_notif)
-
 
 
 @dp.message_handler(text=['Перейти на сайт с олимпиадами'])
