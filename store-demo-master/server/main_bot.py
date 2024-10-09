@@ -79,7 +79,7 @@ async def send_help_message(message: types.Message):
 
 
 @dp.message_handler(text=['Перейти на сайт с олимпиадами'])
-@dp.message_handler(commands='/to_main_site')
+@dp.message_handler(commands='to_main_site')
 async def to_main_site(message: types.Message):
     try:
         text = f'Упс, что-то пошло не так, попробуйте позже или самостоятельно перейти на https://olimpik.klsh.ru'
