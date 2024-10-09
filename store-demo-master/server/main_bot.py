@@ -59,11 +59,11 @@ async def send_help_message(message: types.Message):
     try:
         text = """Бот поддерживает следующие команды:
         
-    1. /start - Приветствие, подтверждение привязки аккаутна к боту.
-    2. /help - Помощь (данное сообщение).
-    3. /to_main_site - Перейти на сайт с олимпиадами
-    4. /delete_notifications - Больше не присылать уведомления в боте.
-    5. /add_notifications - Начать присылать уведомления в боте."""
+1. /start - Приветствие, подтверждение привязки аккаутна к боту.
+2. /help - Помощь (данное сообщение).
+3. /to_main_site - Перейти на сайт с олимпиадами
+4. /delete_notifications - Больше не присылать уведомления в боте.
+5. /add_notifications - Начать присылать уведомления в боте."""
 
         session = db_session.create_session()
         q = select(users.User).select_from(users.User).where(users.User.telegram_id == message.from_user.id)
