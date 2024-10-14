@@ -36,7 +36,7 @@
             <h3 class="one-olimp-description">{{ one_olimp['desc'] }}</h3>
             <div class="one-olimp-href">
                Для того, чтобы узнать об олимпиаде, её организаторах, этапах и заданиях подробнее, перейдите по ссылке ниже. <br>
-               Ссылка на подробную информацию: <a href="https://olimpiada.ru" onclick="location.href=this.href+ one_olimp['href']; return false;">{{ olimp_href }}</a>
+               Ссылка на подробную информацию: <el-button type="primary" color="#626aef" class="learn_more_button" @click="get_href">Читать подробнее</el-button>
             </div>
          </div>
          <div class="before_footer"></div>
@@ -83,7 +83,7 @@
             <h3 class="mobile-one-olimp-description">{{ one_olimp['desc'] }}</h3>
             <div class="mobile-one-olimp-href">
                Для того, чтобы узнать об олимпиаде, её организаторах, этапах и заданиях подробнее, перейдите по ссылке ниже. <br>
-               Ссылка на подробную информацию: <a href="https://olimpiada.ru" onclick="location.href=this.href+ one_olimp['href']; return false;">{{ olimp_href.value }}</a>
+               Ссылка на подробную информацию: <el-button type="primary" color="#626aef" class="learn_more_button" @click="get_href">Читать подробнее</el-button>
             </div>
          </div>
          <div class="before-footer"></div>
@@ -119,7 +119,9 @@ body: userToken.getters.get_request
 }
 
 let one_olimp = ref({});
-const olimp_href = ref('https://olimpiada.ru');
+
+
+const olimp_href = ref('');
 
 fetch(url, request_options)
 .then(res => res.json())
@@ -129,13 +131,17 @@ fetch(url, request_options)
       
    } else if (json['success'] == 'OK'){
       one_olimp.value = json['olimp'];
-      olimp_href.value = olimp_href.value + one_olimp.value['href'];
+      olimp_href.value = 'https://olimpiada.ru' + one_olimp.value['href'];
       
       userToken.commit('set_request', "{}");
    }
 })
 .catch(err => console.error('error:' + err));
 
+
+function get_href(){
+   window.open(olimp_href.value, "_blank");
+}
 
 function get_user_have (){
    return one_olimp.value['user_have'];

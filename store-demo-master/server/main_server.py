@@ -38,7 +38,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 
 if __name__ == "__main__":
-    db_session.global_init("../db/main_database.db")
+    db_session.global_init("../db/main_database8.db")
     load_subjects()
     new_olimpycs()
     schedule.every(30).days.at('12:00').do(checker_dates_olimps)
