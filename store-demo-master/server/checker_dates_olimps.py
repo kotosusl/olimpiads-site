@@ -11,7 +11,7 @@ def checker_dates_olimps():
     query = select(olimpics.Olimp)
     all_olimps = session.execute(query)
     for i in all_olimps:
-        query = select(olimpics.Olimp, olimp_dates.Olimp_dates).select_from(olimpics.Olimp).join(olimp_dates.Olimp_dates, i[0].id == olimp_dates.Olimp_dates.olimp)
+        query = select(olimpics.Olimp, olimp_dates.Olimp_dates).select_from(olimpics.Olimp).join(olimp_dates.Olimp_dates, i[0].id == olimp_dates.Olimp_dates.olimp).where(i[0].id == olimpics.Olimp.id)
         one_olimp_dates = session.execute(query)
         query = select(users.User).select_from(users.User).join(user_olimpyc.Relation, user_olimpyc.Relation.user == users.User.id).where(i[0].id == user_olimpyc.Relation.olimp)
         #query = select(user_olimpyc.Relation.user).select_from(user_olimpyc.Relation).where(i[0].id == user_olimpyc.Relation.olimp)

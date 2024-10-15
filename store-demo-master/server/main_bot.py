@@ -122,7 +122,7 @@ async def f():
 
 
 if __name__ == '__main__':
-    db_session.global_init("../db/main_database8.db")
+    db_session.global_init("../db/main_database9.db")
 
     loop.create_task(f())
     loop.create_task(send_notifications_in_telegram_bot())

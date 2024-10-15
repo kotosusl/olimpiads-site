@@ -36,11 +36,16 @@ app.config['SECRET_KEY'] = APP_CONFIG_SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+def send_notifications_in_telegram_bot():
+    users_of_sending = checker_dates_olimps()
+    for user_telegram_id, user_msg in users_of_sending:
+        print(user_telegram_id, user_msg)
+
 
 if __name__ == "__main__":
-    db_session.global_init("../db/main_database8.db")
-    load_subjects()
-    new_olimpycs()
+    db_session.global_init("../db/main_database_beta.db")
+    #load_subjects()
+    #new_olimpycs()
     schedule.every(30).days.at('12:00').do(checker_dates_olimps)
 
     app.run(host='127.0.0.1', port=8888)
