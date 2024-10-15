@@ -24,7 +24,8 @@
          <div class="one-olimp-information">
             
             <div class="one-olimp-classes-and-subjects">
-               <h6 class="one-olimp-classes"> {{ one_olimp['min_class'] }}-{{ one_olimp['max_class'] }} класс</h6>
+               <div v-if="one_olimp['min_class'] == one_olimp['max_class']"><h6 class="one-olimp-classes"> {{ one_olimp['min_class'] }} класс</h6></div>
+               <div v-else><h6 class="one-olimp-classes"> {{ one_olimp['min_class'] }}-{{ one_olimp['max_class'] }} класс</h6></div>
                <div class="subject-box">
                   <div class="text-item"><p class="one-olimp-subjects">Предметы: </p></div>
                   <div v-for="(i, indx) in one_olimp['subjects']" :key="indx" class="text-item">
@@ -72,7 +73,8 @@
          <div class="mobile-one-olimp-information">
             
             <div class="mobile-one-olimp-classes-and-subjects">
-               <h6 class="mobile-one-olimp-classes"> {{ one_olimp['min_class'] }}-{{ one_olimp['max_class'] }} класс</h6>
+               <div v-if="one_olimp['min_class'] == one_olimp['max_class']"><h6 class="mobile-one-olimp-classes"> {{ one_olimp['min_class'] }} класс</h6></div>
+               <div v-else><h6 class="mobile-one-olimp-classes"> {{ one_olimp['min_class'] }}-{{ one_olimp['max_class'] }} класс</h6></div>
                <div class="mobile-subject-box">
                   <el-row>
                      <div class="mobile-text-item"><p class="mobile-one-olimp-subjects">Предметы: </p></div>
