@@ -24,14 +24,15 @@
       <el-row :gutter="10" justify="center">
       <div v-if="olimps.length == 0" class="select-no-olimp"><p>Олимпиад не найдено</p></div>
       <el-col v-else v-for="(olimpiada, index) in olimps" :key="index" class="select-olimp-card" :xs="23" :sm="11" :md="11" :lg="7" :xl="5">
-         <el-card class="select-box-card" shadow="hover" @click="cardOnClick">
+         <el-card class="select-box-card" shadow="hover" @click="cardOnClick(olimpiada.id)">
             <template #header>
                <div class="select-card-header">
                   <el-row><h1>{{ olimpiada.name }}</h1></el-row>
                </div>
             </template>
             <div class="select-card-body">
-               <p>{{olimpiada.min_class }}-{{ olimpiada.max_class }} класс</p>
+               <div v-if="olimpiada.min_class == olimpiada.max_class"><p>{{olimpiada.min_class }} класс</p></div>
+               <div v-else><p>{{olimpiada.min_class }}-{{ olimpiada.max_class }} класс</p></div>
                <div class="select-subject-box">
                   <el-row>
                      <div class="select-text-item">По предметам:</div>
@@ -43,7 +44,7 @@
             </div>
             
             <template #footer>
-               <el-button class="button" type="danger" plain @click="deleteOlimpNotification(olimpiada.id)">Убрать уведомления</el-button>
+               <el-button class="button" type="danger" plain @click="clickRedButton">Убрать уведомления</el-button>
             </template>
          </el-card>
       
@@ -133,7 +134,15 @@ const successMessage2 = () => {
   })
 }
 
-function deleteOlimpNotification(olimp_id)
+let a = 2;
+
+function clickRedButton(){
+   a = 1;
+}
+
+function cardOnClick(olimp_id){
+   
+   function deleteOlimpNotification(olimp_id)
 {
 
    let url = '/api/remove_olimp_user';
@@ -164,4 +173,15 @@ function deleteOlimpNotification(olimp_id)
 
    emit('ondeletenotification')
 }
+
+if (a == 1){
+   deleteOlimpNotification(olimp_id);
+} else if (a == 2){
+   let request = JSON.stringify({'olimp_id': olimp_id});
+   userToken.commit('set_request', request);
+   router.push('/one_olimp');
+}
+a = 2;
+}
+
 </script>

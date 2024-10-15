@@ -33,7 +33,8 @@
                </div>
             </template>
             <div class="main-card-body">
-               <p>{{olimpiada.min_class }}-{{ olimpiada.max_class }} класс</p>
+               <div v-if="olimpiada.min_class == olimpiada.max_class"><p>{{olimpiada.min_class }} класс</p></div>
+               <div v-else><p>{{olimpiada.min_class }}-{{ olimpiada.max_class }} класс</p></div>
                <div class="main-subject-box">
                   <el-row>
                      <div class="main-text-item">По предметам:</div>
