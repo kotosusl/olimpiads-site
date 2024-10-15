@@ -111,9 +111,8 @@ async def to_main_site(message: types.Message):
 async def delete_notifications(message: types.Message):
     try:
         session = db_session.create_session()
-        curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id)
+        curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id).first()
         if curr_user:
-            curr_user = curr_user.first()
             if curr_user.get_telegram_notifications:
                 curr_user.get_telegram_notifications = 0
                 session.commit()
@@ -135,9 +134,8 @@ async def delete_notifications(message: types.Message):
 async def add_notifications(message: types.Message):
     try:
         session = db_session.create_session()
-        curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id)
+        curr_user = session.query(users.User).where(users.User.telegram_id == message.from_user.id).first()
         if curr_user:
-            curr_user = curr_user.first()
             if curr_user.get_telegram_notifications == 0:
                 curr_user.get_telegram_notifications = 1
                 session.commit()
