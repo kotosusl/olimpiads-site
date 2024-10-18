@@ -2,6 +2,7 @@ from flask import Blueprint
 from data import db_session, notifications
 from token_required import token_required
 from sqlalchemy import select
+from datetime import datetime
 
 
 blueprint_get_notifications = Blueprint('blueprint_get_notifications', __name__)
@@ -13,6 +14,7 @@ def get_notifications(current_user):
     session = db_session.create_session()
     query = select(notifications.Notification).select_from(notifications.Notification).where(notifications.Notification.user_id == current_user.id)
     res = session.execute(query)
+    res.sort(key=lambda x: (datetime.strptime(x[0].message_date, '%Y-%m-%d'), datetime.strptime(str(x[0].message_time), '%H:%M:%S')), reverse=True)
     jsn = {
         'success': 'OK',
         'notifications': [
