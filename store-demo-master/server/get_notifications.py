@@ -14,7 +14,7 @@ def get_notifications(current_user):
     session = db_session.create_session()
     query = select(notifications.Notification).select_from(notifications.Notification).where(notifications.Notification.user_id == current_user.id)
     res = session.execute(query)
-    res.sort(key=lambda x: int(''.join(str(x[0].message_date).split('-')) + ''.join(str(x[0].message_time).split(':'))), reverse=True)
+    res.sort(key=lambda x: x[0].message_date, reverse=True)
     jsn = {
         'success': 'OK',
         'notifications': [
