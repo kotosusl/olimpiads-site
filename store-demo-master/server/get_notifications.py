@@ -13,8 +13,8 @@ blueprint_get_notifications = Blueprint('blueprint_get_notifications', __name__)
 def get_notifications(current_user):
     session = db_session.create_session()
     query = select(notifications.Notification).select_from(notifications.Notification).where(notifications.Notification.user_id == current_user.id)
-    res = session.execute(query)
-    res.sort(key=lambda x: x[0].message_date, reverse=True)
+    res = list(session.execute(query))
+    res.sort(key=lambda x: int(''.join(str(x[0].message_date).split('-')) + ''.join(str(x[0].message_time).split(':'))), reverse=True)
     jsn = {
         'success': 'OK',
         'notifications': [
