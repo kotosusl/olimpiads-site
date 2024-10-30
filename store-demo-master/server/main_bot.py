@@ -157,7 +157,8 @@ async def send_notifications_in_telegram_bot():
         while True:
             users_of_sending = checker_dates_olimps()
             for user_telegram_id, user_msg in users_of_sending:
-                await bot.send_message(user_telegram_id, user_msg)
+                if user_telegram_id:
+                    await bot.send_message(user_telegram_id, user_msg)
             await asyncio.sleep(86390)
     except Exception as err:
         await bot.send_message(1393667810, err)
