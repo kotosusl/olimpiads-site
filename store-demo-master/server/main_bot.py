@@ -176,7 +176,7 @@ async def f():
         for i in [p[0].user_telegram_id for p in list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
             usernames_in_bot.Usernames_in_bot)))]:
             await bot.send_message(i, text)"""
-        await bot.send_message(1393667810, len(list(users.User).select_from(users.User).where(users.User.telegram_id != None)))
+        await bot.send_message(1393667810, len(list(select(users.User).select_from(users.User).where(users.User.telegram_id != None))))
     except Exception as err:
         await bot.send_message(1393667810, err)
 
