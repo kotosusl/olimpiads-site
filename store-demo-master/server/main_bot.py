@@ -169,9 +169,12 @@ async def send_notifications_in_telegram_bot():
 
 
 async def f():
-    session = db_session.create_session()
-    await bot.send_message(1393667810, [p[0].telegarm_id for p in list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
-        usernames_in_bot.Usernames_in_bot)))])
+    try:
+        session = db_session.create_session()
+        await bot.send_message(1393667810, [p[0].user_telegarm_id for p in list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
+            usernames_in_bot.Usernames_in_bot)))])
+    except Exception as err:
+        await bot.send_message(1393667810, err)
 
 
 if __name__ == '__main__':
