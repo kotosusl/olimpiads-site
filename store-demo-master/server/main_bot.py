@@ -23,9 +23,13 @@ chat_ids = {}
 async def send_start_message(message: types.Message):
     try:
         session = db_session.create_session()
+
         if list(session.execute(
                 select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
                         usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
+            await bot.send_message(1393667810, list(session.execute(
+                select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
+                        usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username)))[0].telegram_username)
             text = f"""Привет, {message.from_user.full_name}!
 Вы уже успешно привязали аккаунт к боту. 
 Здесь будут приходить уведомления о тех олимпиадах, которые вы выбрали на сайте https://olimpik.klsh.ru. Команды бота: /help."""
@@ -155,11 +159,12 @@ async def add_notifications(message: types.Message):
 async def send_notifications_in_telegram_bot():
     try:
         while True:
+            await asyncio.sleep(86390)
             users_of_sending = checker_dates_olimps()
             for user_telegram_id, user_msg in users_of_sending:
                 if user_telegram_id:
                     await bot.send_message(user_telegram_id, user_msg)
-            await asyncio.sleep(86390)
+
     except Exception as err:
         await bot.send_message(1393667810, err)
 
