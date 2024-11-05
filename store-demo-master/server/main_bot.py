@@ -169,7 +169,9 @@ async def send_notifications_in_telegram_bot():
 
 
 async def f():
-    await bot.send_message(1393667810, 'hi')
+    session = db_session.create_session()
+    await bot.send_message(1393667810, list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
+        usernames_in_bot.Usernames_in_bot))))
 
 
 if __name__ == '__main__':
