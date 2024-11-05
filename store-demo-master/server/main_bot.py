@@ -170,8 +170,6 @@ async def send_notifications_in_telegram_bot():
 
 async def f():
     session = db_session.create_session()
-    await bot.send_message(1393667810, len(list(session.execute(select(users.User).select_from(
-        users.User)))))
     await bot.send_message(1393667810, [p[0].telegarm_id for p in list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
         usernames_in_bot.Usernames_in_bot)))])
 
