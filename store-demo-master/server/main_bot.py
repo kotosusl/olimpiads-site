@@ -25,11 +25,8 @@ async def send_start_message(message: types.Message):
         session = db_session.create_session()
 
         if list(session.execute(
-                select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
-                        usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
-            await bot.send_message(1393667810, list(session.execute(
-                select(usernames_in_bot.Usernames_in_bot).select_from(usernames_in_bot.Usernames_in_bot).where(
-                        usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username)))[0].telegram_username)
+                select(users.User).select_from(users.User).where(
+                        users.User.telegram_id == message.from_user.id))):
             text = f"""Привет, {message.from_user.full_name}!
 Вы уже успешно привязали аккаунт к боту. 
 Здесь будут приходить уведомления о тех олимпиадах, которые вы выбрали на сайте https://olimpik.klsh.ru. Команды бота: /help."""
