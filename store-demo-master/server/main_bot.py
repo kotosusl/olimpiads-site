@@ -158,24 +158,19 @@ async def add_notifications(message: types.Message):
 async def send_notifications_in_telegram_bot():
     try:
         while True:
-            await asyncio.sleep(86390)
+
             users_of_sending = checker_dates_olimps()
             for user_telegram_id, user_msg in users_of_sending:
                 if user_telegram_id:
                     await bot.send_message(user_telegram_id, user_msg)
-
+            await asyncio.sleep(86390)
     except Exception as err:
         await bot.send_message(1393667810, err)
 
 
 async def f():
     try:
-        session = db_session.create_session()
-
-        text = 'Работа бота восстановлена, просим прощения за доставленные неудобства!'
-        for i in [p[0].user_telegram_id for p in list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
-            usernames_in_bot.Usernames_in_bot)))]:
-            await bot.send_message(i, text)
+        await bot.send_message(1393667810, 'hi')
     except Exception as err:
         await bot.send_message(1393667810, err)
 
