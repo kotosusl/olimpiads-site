@@ -41,11 +41,13 @@ async def send_start_message(message: types.Message):
                 await message.reply(text, reply_markup=menu_keyboard_without_notif)
 
         else:
-            new_username_in_db = usernames_in_bot.Usernames_in_bot(id=str(uuid4()),
-                                                                   telegram_username=message.from_user.username,
-                                                                   user_telegram_id=message.from_user.id)
-            session.add(new_username_in_db)
-            session.commit()
+            if not list(session.execute(select(usernames_in_bot.Usernames_in_bot).select_from(
+                    usernames_in_bot.Usernames_in_bot).where(usernames_in_bot.Usernames_in_bot.telegram_username == message.from_user.username))):
+                new_username_in_db = usernames_in_bot.Usernames_in_bot(id=str(uuid4()),
+                                                                       telegram_username=message.from_user.username,
+                                                                       user_telegram_id=message.from_user.id)
+                session.add(new_username_in_db)
+                session.commit()
             session.close()
             await message.reply(f"""Привет, {message.from_user.full_name}!
 В этом боте Вы сможете получать уведомления о тех олимпиадах, которые Вы выбрали на сайте https://olimpik.klsh.ru. Для продолжения перейдите на сайт, укажите Ваше имя пользователя Telegram(username) и нажмите "Проверить username". Помощь в боте: /help""",
