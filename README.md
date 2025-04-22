@@ -1,4 +1,4 @@
 # README
 
 A new version has been uploaded again.
-1.0.105
+1.0.106
